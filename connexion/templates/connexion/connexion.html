@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static%}
+
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% block title%}
+    Connexion
+{% endblock %}
+
+{% block content %}
+<div class="center">
+    <h2>Connexion</h2>
+</div>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe :</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        {% if error %}
+            <div class="text-danger">{{ error }}</div>
+        {% endif %}
+        <br>
+        <div class="center">
+        <button type="submit" class="btn btn-primary">Connexion</button>
+        </div>
+    </form>
+
+    <br>
+    <div class="center">
+    <a href="{% url 'signup' %}">Pas encore inscrit ?</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S'inscrire</title>
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content%}
+    <div class="center">
+    <h2>S'inscrire</h2>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+        </div>
+        <div class="form-group">
+            <label for="password1">Password</label>
+            <input type="password" name="password1" class="form-control" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+    <label for="password2">Confirm Password</label>
+    <input type="password" name="password2" class="form-control" placeholder="Confirm Password" required>
+    </div>
+    <div class="center">
+    <button type="submit" class="btn btn-primary">S'inscrire</button>
+    <br>
+    <a href="{% url 'login' %}" class="btn btn-link">Se connecter</a>
+    </div>
+    </form>
+    {% endblock %}
+</body>
+</html>

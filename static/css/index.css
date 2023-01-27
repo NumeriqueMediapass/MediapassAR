@@ -1,0 +1,28 @@
+body{
+    background-color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+    margin:center;
+    padding: left;
+    
+}
+
+div.form-group{
+    margin: 0 auto;
+    margin-top: 1%;
+    width: 11%;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+div.center{
+    margin: 0 auto;
+    margin-top: 1%;
+    width: 7%;
+    background-color: #fff;
+    border-radius: 5px;
+    
+}
