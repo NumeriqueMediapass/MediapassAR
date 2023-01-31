@@ -1,0 +1,18 @@
+{%extends 'base.html'%}
+{%block title%}Mon Compte{%endblock%}
+{%block content%}
+    <h1>Ma page personnelle</h1>
+    
+    <p>Vous etes connecté en tant que {{user.username}}</p>
+    <p>Vous avez {{user.date_joined}} comme date d'inscription</p>
+    <p>Vous avez {{user.last_login}} comme date de derniere connexion</p>
+
+    <!--Affichage de champs pour modifier les informations du compte-->
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Modifier">
+    </form>
+
+    <a href="{% url 'acceuil' %}">Retour a l'acceuil</a>
+{%endblock%}
