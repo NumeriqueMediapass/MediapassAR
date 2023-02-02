@@ -35,9 +35,11 @@ def signup(request):
                     user = User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name,is_active=False)
                     token = default_token_generator.make_token(user)
                     confirmation_url = reverse('confirm_signup', kwargs={'token': token})
-
+                    #Rendre confirmation_url cliquable
+                    confirmation_url = request.build_absolute_uri(confirmation_url)
                     #Création du message pour l'inscription
                     subject = 'Confirmation de votre inscription'
+                    #Avoir la confirmation_url qui soit cliquable dans le courriel
                     message = 'Bonjour {}, merci de confirmer votre inscription en cliquant sur le lien suivant : {}'.format(username, confirmation_url)
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list = [email]
@@ -54,22 +56,32 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'connexion/signup.html', {'form': form})
 
+def confirm_signup_error(request):
+    return render(request, 'connexion/confirm_signup_error.html')
 
 #Fonction qui confirme l'inscription au site
 def confirm_signup(request, token):
 # Vérification du token
     if request.method == 'POST':
+        username_get = request.POST.get('username')
+        print('Username get de la page : ',username_get)
         username = Token.objects.get(token=token).username
+        print('Username de la table token : ',username)
         user = User.objects.get(username=username)
         if user is not None:
-            user.is_active = True
-            user.save()
-            #Supprimer le token de la table token
-            Token.objects.filter(token=token).delete()
-            return redirect('login')
+            print('L\'utilisateur existe')
+            if(user == username_get):
+                print('Les deux username sont identiques')
+                user.is_active = True
+                user.save()
+                #Supprimer le token de la table token
+                Token.objects.filter(token=token).delete()
+                return redirect('login')
+            else:
+                return render(request, 'connexion/confirm_signup_error.html')
         else:
             # Le token est invalide, tu lance un message d'erreur
-            return render(request, 'account/confirm_signup_error.html')
+            return render(request, 'connexion/confirm_signup_error.html')
     else:
         return render(request, 'connexion/confirm_signup.html', {'token': token})
 
@@ -105,5 +117,3 @@ def acceuil(request):
     return render(request, 'connexion/acceuil.html')
 
 #Fonction qui permet de réinitialiser le mot de passe
-def reset_password(request):
-    pass
