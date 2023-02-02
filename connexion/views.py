@@ -64,13 +64,11 @@ def confirm_signup(request, token):
 # Vérification du token
     if request.method == 'POST':
         username_get = request.POST.get('username')
-        print('Username get de la page : ',username_get)
         username = Token.objects.get(token=token).username
-        print('Username de la table token : ',username)
         user = User.objects.get(username=username)
         if user is not None:
             print('L\'utilisateur existe')
-            if(user == username_get):
+            if(username == username_get):
                 print('Les deux username sont identiques')
                 user.is_active = True
                 user.save()
