@@ -11,6 +11,9 @@ from django.core.mail import send_mail
 import logging
 from django.contrib.auth.tokens import default_token_generator
 from .models import Token
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm
 # Create your views here.
 
 #Fonction pour s'enregistrer sur le site
@@ -67,9 +70,7 @@ def confirm_signup(request, token):
         username = Token.objects.get(token=token).username
         user = User.objects.get(username=username)
         if user is not None:
-            print('L\'utilisateur existe')
             if(username == username_get):
-                print('Les deux username sont identiques')
                 user.is_active = True
                 user.save()
                 #Supprimer le token de la table token
@@ -115,3 +116,13 @@ def acceuil(request):
     return render(request, 'connexion/acceuil.html')
 
 #Fonction qui permet de réinitialiser le mot de passe
+def password_reset(request):
+    if request.method== 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('acceuil')
+    else:
+        form = PasswordResetForm(request.user)
+    return render(request, 'connexion/reset_password.html', {'form': form})
