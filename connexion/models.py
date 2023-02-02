@@ -10,3 +10,13 @@ class User(models.Model): # Line 1
 
     def __str__(self):
         return self.username
+
+
+#Class qui récupère le username et le token d'un utilisateur
+
+class Token(models.Model):
+    username = models.CharField(max_length=30)
+    token = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.user.username

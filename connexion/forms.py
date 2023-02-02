@@ -21,11 +21,9 @@ class SignupForm(forms.ModelForm):
                 raise forms.ValidationError("Cette adresse mail est déjà utilisée")
             return email
 
-#Class pour réinitialiser le mot de passe avec l'email et un token envoyé par mail
-class ResetPasswordForm(forms.Form):
-    token = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Token'}))
-    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
-    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password Confirmation'}))
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        #On regarde si le username est déjà exsitant dans la base de donnée
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Ce username est déjà utilisé")
+        return username

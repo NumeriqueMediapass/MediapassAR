@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<h1>Entrez votre username</h1>
+<!-- Input pour récupérer le username -->
+<form method="post">
+    {% csrf_token %}
+<input type="text" name="username" placeholder="Username" required>
+<input type=submit value="Valider">
+</form>
+
+{% endblock%}

@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import signup, login_view,logout_view, passwordReset
+from .views import signup, login_view,logout_view, confirm_signup
 
 urlpatterns = [
     path('signup/', signup, name='signup'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('passwordReset/', passwordReset, name='passwordReset'),
+    path('confirm_signup/<token>/', confirm_signup, name='confirm_signup'),
 ]

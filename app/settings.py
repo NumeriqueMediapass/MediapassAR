@@ -139,3 +139,13 @@ EMAIL_HOST_USER = 'mediapassatelier59@gmail.com'
 EMAIL_HOST_PASSWORD = 'qpbndsemetktnxez'
 
 EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_HOST = 'localhost'
+
+# EMAIL_PORT= 1025
+
+# EMAIL_USE_TLS = False
