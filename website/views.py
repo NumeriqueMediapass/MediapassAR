@@ -1,7 +1,7 @@
 from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import update_session_auth_hash
-
+from django.contrib.auth.admin import User
 from website.forms import EditProfileForm, PasswordChangingForm
 
 # Create your views here.
@@ -32,7 +32,12 @@ def password_change(request):
 def editProfile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
+        #Vérifie si le formulaire est valide
         if form.is_valid():
+            #Vérifie si le nom d'utilisateur est déjà utilisé
+            if User.objects.filter(username=form.cleaned_data['username']).exists():
+                messages.error(request, "Ce nom d'utilisateur est déjà utilisé")
+                return redirect('editProfile')
             form.save()
             return redirect('monCompte')
     else:

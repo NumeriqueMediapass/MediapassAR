@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.admin import User
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 #Class pour modifier le mot de passe d'un utilisateur
 class PasswordChangingForm(PasswordChangeForm):
@@ -15,7 +15,7 @@ class PasswordChangingForm(PasswordChangeForm):
 
 
 #Class pour modifier les informations d'un utilisateur
-class EditProfileForm(UserChangeForm):
+class EditProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control'}))
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control'}))
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control'}))
