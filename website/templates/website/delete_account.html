@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Suppression du compte{% endblock %}
+
+{% block content %}
+<form method='POST'>
+
+    {% csrf_token %}
+    <h1>Suppression du compte</h1>
+    <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+    <input type='submit' value='Supprimer mon compte' class='btn btn-danger'>
+    <a href="{% url 'monCompte'%}">Annuler</a>
+</form>
+
+{% endblock %}

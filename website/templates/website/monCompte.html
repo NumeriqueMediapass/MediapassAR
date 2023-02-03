@@ -10,8 +10,11 @@
     <!--Affichage de champs pour modifier les informations du compte-->
     <form method="post">
         {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Modifier">
+        <a href="{% url 'password_change'%}">Modifier votre mot de passe </a>
+        <br>
+        <a href="{% url 'editProfile'%}">Modifier votre compte </a>
+        <br>
+        <a href="{% url 'deleteProfile'%}">Supprimer votre compte </a>
     </form>
 
     <a href="{% url 'acceuil' %}">Retour a l'acceuil</a>
