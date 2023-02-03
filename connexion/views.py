@@ -114,15 +114,3 @@ def acceuil(request):
     if(request.user.is_active == False):
         return redirect('login')
     return render(request, 'connexion/acceuil.html')
-
-#Fonction qui permet de réinitialiser le mot de passe
-def password_reset(request):
-    if request.method== 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)
-            return redirect('acceuil')
-    else:
-        form = PasswordResetForm(request.user)
-    return render(request, 'connexion/reset_password.html', {'form': form})
