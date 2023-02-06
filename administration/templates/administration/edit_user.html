@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block title%}Modification d'utilisateur{%endblock%}
+{%block content%}
+    <h1>Modification d'utilisateur {{ user_info.username }}</h1>
+    <form method='POST'>
+        {%csrf_token%}
+    <table>
+    <tr>
+        <th>id</th>
+        <th>email</th>
+        <th>username</th>
+        <th>first_name</th>
+        <th>last_name</th>
+        <th>is_active</th>
+        <th>is_staff</th>
+        <th>is_superuser</th>
+        <th>last_login</th>
+        <th>date_joined</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="id" value="{{ user_info.id }}"></td>
+        <td><input type="text" name="email" value="{{ user_info.email }}"></td>
+        <td><input type="text" name="username" value="{{ user_info.username }}"></td>
+        <td><input type="text" name="first_name" value="{{ user_info.first_name }}"></td>
+        <td><input type="text" name="last_name" value="{{ user_info.last_name }}"></td>
+        <td><input type="text" name="is_active" value="{{ user_info.is_active }}"></td>
+        <td><input type="text" name="is_staff" value="{{ user_info.is_staff }}"></td>
+        <td><input type="text" name="is_superuser" value="{{ user_info.is_superuser }}"></td>
+        <td><input type="text" name="last_login" value="{{ user_info.last_login }}"></td>
+        <td><input type="text" name="date_joined" value="{{ user_info.date_joined }}"></td>
+    </tr>
+    </table>
+        <input type="submit" value="Modifier">
+    </form>
+{%endblock%}
