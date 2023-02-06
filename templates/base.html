@@ -16,6 +16,11 @@
 {% else %}
     <a href="{% url 'login' %}">Se connecter</a>
 {% endif %}
+    <!--Si l'utilisateur est un staff on affiche le lien pour aller dans les pages admin-->
+    {% if user.is_staff %}
+    <a href="{% url 'index_admin' %}">Acceder au panel admin</a>
+    {% endif %}
+
     {% block content %}
     <h1>
         {% block h1%}{% endblock %}

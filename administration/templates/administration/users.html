@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Utilisateur {% endblock %}
+{% block content %}
+    <h1>Utilisateur</h1>
+    <p>Voici la liste des utilisateurs</p>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
