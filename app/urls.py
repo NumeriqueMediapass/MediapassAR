@@ -21,4 +21,5 @@ urlpatterns = [
     path('',include('connexion.urls')),
     path('',include('website.urls')),
     path('',include('administration.urls')),
+    path('',include('mediatheque.urls')),
 ]

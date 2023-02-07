@@ -21,7 +21,7 @@
     <a href="{% url 'index_admin' %}">Acceder au panel admin</a>
     {% endif %}
     {% if user.is_staff or user.is_superuser %}
-    <a href="{% url 'index_admin' %}">Acceder au panel médiathèque</a>
+    <a href="{% url 'index_mediatheque' %}">Acceder au panel médiathèque</a>
     {% endif %}
 
     {% block content %}

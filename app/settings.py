@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'connexion',
     'website',
     'administration',
+    'mediatheque',
 ]
 
 MIDDLEWARE = [
