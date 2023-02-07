@@ -18,6 +18,15 @@ def print_users(request):
     # On les affiche dans la page users.html
     return render(request, 'administration/users.html', {'users': users})
 
+#Fonction qui permet de supprimer un ou plusieurs utilisateurs
+def delete_users(request):
+    if request.method == 'POST':
+        #On récupère les id des utilisateurs à supprimer dans les checkbox cochées
+        users = request.POST.getlist('users')
+        print('users : ',users)
+        for user in users:
+            User.objects.get(id=user).delete()
+        return redirect('print_users')
 
 # Fonction qui permet de modifier les informations d'un utilisateur
 def edit_user(request, id):
@@ -60,15 +69,6 @@ def edit_user(request, id):
     # On affiche le formulaire d'édition de l'utilisateur
     return render(request, 'administration/edit_user.html', context)
 
-
-# Fonction qui permet de supprimer un utilisateur
-def delete_user(request, id):
-    # On récupère l'utilisateur dont l'id est passé en paramètre
-    user_info = User.objects.get(id=id)
-    # On le supprime
-    user_info.delete()
-    # On redirige vers la page des utilisateurs
-    return redirect('print_users')
 
 
 # Fonction qui permet de créer un utilisateur
