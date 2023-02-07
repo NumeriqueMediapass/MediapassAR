@@ -23,10 +23,22 @@
         <td><input type="text" name="username" value="{{ user_info.username }}"></td>
         <td><input type="text" name="first_name" value="{{ user_info.first_name }}"></td>
         <td><input type="text" name="last_name" value="{{ user_info.last_name }}"></td>
-        <td><input type="text" name="is_active" value="{{ user_info.is_active }}"></td>
-        <td><input type="text" name="is_staff" value="{{ user_info.is_staff }}"></td>
-        <td><input type="text" name="is_superuser" value="{{ user_info.is_superuser }}"></td>
-        <td><input type="text" name="last_login" value="{{ user_info.last_login }}"></td>
+        {% if user_info.is_active %}
+            <td><input type="checkbox" name="is_active" value="{{ user_info.is_active }}" checked></td>
+        {% else %}
+            <td><input type="checkbox" name="is_active" value="{{ user_info.is_active }}"></td>
+        {% endif %}
+        {% if user_info.is_staff %}
+            <td><input type="checkbox" name="is_staff" value="{{ user_info.is_staff }}" checked></td>
+        {% else %}
+            <td><input type="checkbox" name="is_staff" value="{{ user_info.is_staff }}"></td>
+        {% endif %}
+        {% if user_info.is_superuser %}
+            <td><input type="checkbox" name="is_superuser" value="{{ user_info.is_superuser }}" checked></td>
+        {% else %}
+            <td><input type="checkbox" name="is_superuser" value="{{ user_info.is_superuser }}"></td>
+        {% endif %}
+        <td><input type="text" name="last_login" value="{{ user_info.last_login }}"></td>-
         <td><input type="text" name="date_joined" value="{{ user_info.date_joined }}"></td>
     </tr>
     </table>
