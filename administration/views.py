@@ -23,7 +23,6 @@ def delete_users(request):
     if request.method == 'POST':
         #On récupère les id des utilisateurs à supprimer dans les checkbox cochées
         users = request.POST.getlist('users')
-        print('users : ',users)
         for user in users:
             User.objects.get(id=user).delete()
         return redirect('print_users')

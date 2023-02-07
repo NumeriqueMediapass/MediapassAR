@@ -17,8 +17,11 @@
     <a href="{% url 'login' %}">Se connecter</a>
 {% endif %}
     <!--Si l'utilisateur est un staff on affiche le lien pour aller dans les pages admin-->
-    {% if user.is_staff %}
+    {% if user.is_superuser %}
     <a href="{% url 'index_admin' %}">Acceder au panel admin</a>
+    {% endif %}
+    {% if user.is_staff or user.is_superuser %}
+    <a href="{% url 'index_admin' %}">Acceder au panel médiathèque</a>
     {% endif %}
 
     {% block content %}
