@@ -25,7 +25,9 @@ def add_atelier(request):
     if request.method == 'POST':
         form = AnimationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            animation = form.save(commit=False)
+            animation.users = request.user
+            animation.save()
             return redirect('print_atelier')
     else:
         form = AnimationForm()

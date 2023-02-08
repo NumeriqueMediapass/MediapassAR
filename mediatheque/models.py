@@ -20,7 +20,7 @@ class Animation(models.Model):
     hour = models.TimeField()
     age = models.IntegerField()
     image = models.ImageField(upload_to='images/')
-    mediatheque = models.ForeignKey(Mediatheque, on_delete=models.CASCADE)
+    users = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

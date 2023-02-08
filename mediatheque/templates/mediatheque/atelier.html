@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Ateliers</h1>
     {% for atelier in animations %}
-        <h2>{{ atelier.name }}</h2>
+        <h2>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</h2>
         <p>{{ atelier.description }}</p>
         <p>{{ atelier.date }}</p>
         <p>{{ atelier.hour }}</p>
