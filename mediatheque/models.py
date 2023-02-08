@@ -16,7 +16,7 @@ class Mediatheque(models.Model):
 class Animation(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    date = models.DateField()
+    date = models.DateTimeField()
     hour = models.TimeField()
     age = models.IntegerField()
     image = models.ImageField(upload_to='images/')
