@@ -7,16 +7,15 @@ from mediatheque.models import Animation
 class AnimationForm(forms.ModelForm):
     class Meta:
         model = Animation
-        fields = ('titre', 'description', 'date', 'heure_debut', 'heure_fin', 'mediatheque', 'age', 'image')
+        fields = ('name', 'description', 'date', 'hour',  'age', 'image','mediatheque')
         widgets = {
-            'titre': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control'}),
-            'heure_debut': forms.TimeInput(attrs={'class': 'form-control'}),
-            'heure_fin': forms.TimeInput(attrs={'class': 'form-control'}),
-            'mediatheque': forms.Select(attrs={'class': 'form-control'}),
+            'hour': forms.TimeInput(attrs={'class': 'form-control'}),
             'age': forms.NumberInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'mediatheque': forms.Select(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
