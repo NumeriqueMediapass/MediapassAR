@@ -32,3 +32,14 @@ def add_atelier(request):
     else:
         form = AnimationForm()
     return render(request, 'mediatheque/add_atelier.html', {'form': form})
+
+def edit_atelier(request, id):
+    animation = Animation.objects.get(id=id)
+    if request.method == 'POST':
+        form = AnimationForm(request.POST, request.FILES, instance=animation)
+        if form.is_valid():
+            form.save()
+            return redirect('print_atelier')
+    else:
+        form = AnimationForm(instance=animation)
+    return render(request, 'mediatheque/edit_atelier.html', {'form': form})

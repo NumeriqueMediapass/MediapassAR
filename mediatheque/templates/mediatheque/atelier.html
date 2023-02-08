@@ -3,12 +3,12 @@
 {% block content %}
     <h1>Ateliers</h1>
     {% for atelier in animations %}
-        <h2>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</h2>
-        <p>{{ atelier.description }}</p>
-        <p>{{ atelier.date }}</p>
-        <p>{{ atelier.hour }}</p>
-        <p>{{ atelier.age }}</p>
-        <img src="{{ atelier.image.url }}" alt="{{ atelier.name }}">
+        <ul>
+        <a href="{%url "edit_atelier" id=atelier.id%}">
+                <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
+            </a>
+        </ul>
+
 
     {% endfor %}
     <a href="add_atelier.html">Ajout d'un atelier</a>

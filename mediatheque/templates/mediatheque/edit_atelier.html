@@ -3,6 +3,12 @@
 
 {% block content %}
 
-    <--! Formulaire de modification d'un atelier -->
+    <!-- Formulaire de modification d'un atelier -->
+    <h2>Modifier l'atelier</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Modifier l'atelier" class="btn btn-primary">
+    </form>
 
 {% endblock %}
