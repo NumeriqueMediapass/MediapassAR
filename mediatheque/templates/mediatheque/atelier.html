@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Liste des ateliers de votre médiathèque ! {% endblock %}
+{% block content %}
+    <h1>Ateliers</h1>
+    {% for atelier in animations %}
+        <h2>{{ atelier.name }}</h2>
+        <p>{{ atelier.description }}</p>
+        <p>{{ atelier.date }}</p>
+        <p>{{ atelier.hour }}</p>
+        <p>{{ atelier.age }}</p>
+        <img src="{{ atelier.image.url }}" alt="{{ atelier.name }}">
+        {{ atelier.thumbnail.url }}
+
+    {% endfor %}
+
+{% endblock %}

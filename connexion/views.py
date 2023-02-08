@@ -2,7 +2,6 @@ from audioop import reverse
 from django.urls import reverse
 from django.shortcuts import render
 from django.conf import settings
-from .forms import SignupForm
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -11,9 +10,6 @@ from django.core.mail import send_mail
 import logging
 from django.contrib.auth.tokens import default_token_generator
 from .models import Token
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.forms import PasswordResetForm
 # Create your views here.
 
 #Fonction pour s'enregistrer sur le site
@@ -35,7 +31,8 @@ def signup(request):
                     exception = Exception('Ce username est déjà utilisé')
                     raise exception
                 else : 
-                    user = User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name,is_active=False)
+                    user = User.objects.create_user(username=username, email=email, password=password1,
+                                                    first_name=first_name, last_name=last_name,is_active=False)
                     token = default_token_generator.make_token(user)
                     confirmation_url = reverse('confirm_signup', kwargs={'token': token})
                     #Rendre confirmation_url cliquable
@@ -64,7 +61,7 @@ def confirm_signup_error(request):
 
 #Fonction qui confirme l'inscription au site
 def confirm_signup(request, token):
-# Vérification du token
+    # Vérification du token
     if request.method == 'POST':
         username_get = request.POST.get('username')
         username = Token.objects.get(token=token).username
@@ -85,7 +82,7 @@ def confirm_signup(request, token):
         return render(request, 'connexion/confirm_signup.html', {'token': token})
 
 
-#Fonction qui permet de se connecter au site
+# Fonction qui permet de se connecter au site
 def login_view(request):
     error = None
     if request.method == 'POST':
@@ -104,12 +101,12 @@ def login_view(request):
     return render(request, 'connexion/connexion.html')
 
 
-#Fonction qui permet de se déconnecter du site
+# Fonction qui permet de se déconnecter du site
 def logout_view(request):
     logout(request)
     return redirect('/login/')
         
-#Fonction qui permet d'accéder à la page d'accueil
+# Fonction qui permet d'accéder à la page d'accueil
 def acceuil(request):
     if(request.user.is_active == False):
         return redirect('login')
