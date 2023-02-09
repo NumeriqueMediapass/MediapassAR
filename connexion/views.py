@@ -1,10 +1,12 @@
 from audioop import reverse
+
+from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 import logging
@@ -13,6 +15,21 @@ from .models import Token
 # Create your views here.
 
 # Fonction pour s'enregistrer sur le site
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('acceuil')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'connexion/connexion.html', context={'form': form})
+
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -25,83 +42,28 @@ def signup(request):
             password2 = request.POST.get('password2')
             try:
                 if User.objects.filter(email=email).exists():
-                    exception = Exception('Cette adresse mail est déjà utilisée')
-                    raise exception
+                    messages.error(request, 'Cette adresse mail est déjà utilisée')
+                    return redirect('signup')
                 elif User.objects.filter(username=username).exists():
-                    exception = Exception('Ce username est déjà utilisé')
-                    raise exception
+                    messages.error(request, 'Ce username est déjà utilisé')
+                    return redirect('signup')
                 else:
                     user = User.objects.create_user(username=username, email=email, password=password1,
-                                                    first_name=first_name, last_name=last_name, is_active=False)
-                    token = default_token_generator.make_token(user)
-                    confirmation_url = reverse('confirm_signup', kwargs={'token': token})
-                    # Rendre confirmation_url cliquable
-                    confirmation_url = request.build_absolute_uri(confirmation_url)
-                    # Création du message pour l'inscription
+                                                    first_name=first_name, last_name=last_name)
+                    # Envoi d'un email simple de confirmation
                     subject = 'Confirmation de votre inscription'
-                    # Avoir la confirmation_url qui soit cliquable dans le courriel
-                    message = 'Bonjour {}, merci de confirmer votre inscription en' \
-                              ' cliquant sur le lien suivant : {}'.format(username, confirmation_url)
+                    message = 'Bonjour {}, merci de vous être inscrit sur notre site.'.format(username)
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list = [email]
                     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
-                    # On ajoute dans la table token le username et le token
-                    token = Token(username=username, token=token)
-                    token.save()
-                    
             except Exception as e:
-                logging.error('Erreur lors de l\'envoie du courriel',e)
+                logging.error('Erreur lors de l\'envoi du courriel', e)
+                messages.error(request, 'Une erreur s\'est produite, veuillez réessayer plus tard.')
                 return redirect('signup')
         return redirect('login')
     else:
         form = UserCreationForm()
     return render(request, 'connexion/signup.html', {'form': form})
-
-def confirm_signup_error(request):
-    return render(request, 'connexion/confirm_signup_error.html')
-
-# Fonction qui confirme l'inscription au site
-def confirm_signup(request, token):
-    # Vérification du token
-    if request.method == 'POST':
-        username_get = request.POST.get('username')
-        username = Token.objects.get(token=token).username
-        user = User.objects.get(username=username)
-        if user is not None:
-            if username == username_get:
-                user.is_active = True
-                user.save()
-                # Supprimer le token de la table token
-                Token.objects.filter(token=token).delete()
-                return redirect('login')
-            else:
-                return render(request, 'connexion/confirm_signup_error.html')
-        else:
-            # Le token est invalide, tu lance un message d'erreur
-            return render(request, 'connexion/confirm_signup_error.html')
-    else:
-        return render(request, 'connexion/confirm_signup.html', {'token': token})
-
-
-# Fonction qui permet de se connecter au site
-def login_view(request):
-    error = None
-    if request.method == 'POST':
-        # Récupération des données d'identification de l'utilisateur
-        username = request.POST.get('username')
-        print('username', username)
-        password = request.POST.get('password')
-        print('password', password)
-
-        # Authentification de l'utilisateur
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('acceuil')
-        else:
-            error = "Nom d'utilisateur ou mot de passe incorrect ou inscription non validée"
-            return render(request, 'connexion/connexion.html', {'error': error})
-    return render(request, 'connexion/connexion.html')
 
 
 # Fonction qui permet de se déconnecter du site
