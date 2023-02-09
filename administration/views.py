@@ -7,12 +7,11 @@ from mediatheque.models import Mediatheque
 
 
 # Create your views here.
-
 def index(request):
     return render(request, 'administration/index.html')
 
 
-# fonction pour afficher les utilisateurs de la base de données
+# Fonction pour afficher les utilisateurs de la base de données
 def print_users(request):
     # On récupère tous les utilisateurs de la base de données ainsi que leurs informations
     users = User.objects.all()
@@ -101,3 +100,15 @@ def get_mediatheques(request):
 def mediatheque_info(request, id):
     mediatheque = Mediatheque.objects.get(id=id)
     return render(request, 'administration/print_mediatheque.html', {'mediatheque': mediatheque})
+
+# Fonction qui permet de modifier les informations d'une médiathèque
+def edit_mediatheque(request, id):
+    if request.method == 'POST':
+        mediatheque = Mediatheque.objects.get(id=id)
+        mediatheque.nom = request.POST['nom']
+        mediatheque.adresse = request.POST['adresse']
+        mediatheque.telephone = request.POST['telephone']
+        mediatheque.save()
+        return redirect('get_mediatheques')
+    mediatheque = Mediatheque.objects.get(id=id)
+    return render(request, 'administration/edit_mediatheque.html', {'mediatheque': mediatheque})

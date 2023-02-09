@@ -7,10 +7,11 @@
     <ul>
         {% for mediatheque in mediatheques %}
             <li>
-                <a href="{%url "mediatheque_info" id=mediatheque.id%}"></a>
-                {{ mediatheque.nom }}
+                <a href="{%url "mediatheque_info" id=mediatheque.id%}">
+                {{ mediatheque.name }}
+                </a>
             </li>
-            <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">
+            <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">Supprimer
         {% endfor %}
 
     </ul>

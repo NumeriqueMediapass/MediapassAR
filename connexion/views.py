@@ -12,7 +12,7 @@ from django.contrib.auth.tokens import default_token_generator
 from .models import Token
 # Create your views here.
 
-#Fonction pour s'enregistrer sur le site
+# Fonction pour s'enregistrer sur le site
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -30,21 +30,22 @@ def signup(request):
                 elif User.objects.filter(username=username).exists():
                     exception = Exception('Ce username est déjà utilisé')
                     raise exception
-                else : 
+                else:
                     user = User.objects.create_user(username=username, email=email, password=password1,
-                                                    first_name=first_name, last_name=last_name,is_active=False)
+                                                    first_name=first_name, last_name=last_name, is_active=False)
                     token = default_token_generator.make_token(user)
                     confirmation_url = reverse('confirm_signup', kwargs={'token': token})
-                    #Rendre confirmation_url cliquable
+                    # Rendre confirmation_url cliquable
                     confirmation_url = request.build_absolute_uri(confirmation_url)
-                    #Création du message pour l'inscription
+                    # Création du message pour l'inscription
                     subject = 'Confirmation de votre inscription'
-                    #Avoir la confirmation_url qui soit cliquable dans le courriel
-                    message = 'Bonjour {}, merci de confirmer votre inscription en cliquant sur le lien suivant : {}'.format(username, confirmation_url)
+                    # Avoir la confirmation_url qui soit cliquable dans le courriel
+                    message = 'Bonjour {}, merci de confirmer votre inscription en' \
+                              ' cliquant sur le lien suivant : {}'.format(username, confirmation_url)
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list = [email]
                     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
-                    #On ajoute dans la table token le username et le token
+                    # On ajoute dans la table token le username et le token
                     token = Token(username=username, token=token)
                     token.save()
                     

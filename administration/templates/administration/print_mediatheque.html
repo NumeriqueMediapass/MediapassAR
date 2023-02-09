@@ -4,6 +4,12 @@
 {% block content %}
 
     <h1>Information Mediatheque</h1>
+    <form>
+        <p><input type="text" name = "name" value="{{ mediatheque.name }}"></p>
+        <p><input type="text" name = "address" value="{{ mediatheque.address }}"></p>
+        <p><input type="text" name = "phone" value="{{ mediatheque.phone }}"></p>
+        <p><input type="text" name = "email" value="{{ mediatheque.email }}"></p>
 
-
+        <p><input type="submit" value="Modifier"></p>
+    </form>
 {% endblock %}
