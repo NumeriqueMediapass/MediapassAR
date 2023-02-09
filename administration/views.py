@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
-from administration.forms import AddUserForm
+from administration.forms import AddUserForm, create_mediathequeForm
+from mediatheque.models import Mediatheque
 
 
 # Create your views here.
@@ -79,3 +80,19 @@ def create_user(request):
         form.save()
         return redirect('print_users')
     return render(request, 'administration/create_user.html', {'form': form})
+
+# Fonction qui permet de créer une mediatheque
+def create_mediatheque(request):
+    if request.method == 'POST':
+        form = create_mediathequeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index_admin')
+    else:
+        form = create_mediathequeForm()
+    return render(request, 'administration/create_mediatheque.html', {'form': form})
+
+# Fonction qui récupère la liste des médiathèques
+def get_mediatheques(request):
+    mediatheques = Mediatheque.objects.all()
+    return render(request, 'administration/list_mediatheque.html', {'mediatheques': mediatheques})

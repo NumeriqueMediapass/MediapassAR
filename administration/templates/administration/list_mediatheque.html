@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Liste des médiathèque {% endblock %}
+
+{% block content %}
+    <h1>Liste des médiathèque</h1>
+    <form method="POST">
+    <ul>
+        {% for mediatheque in mediatheques %}
+            <li>
+                <a href="{{ path('mediatheque_show', {'id': mediatheque.id}) }}">{{ mediatheque.nom }}</a>
+            </li>
+            <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">
+        {% endfor %}
+
+    </ul>
+
+    </form>
+
+{% endblock %}

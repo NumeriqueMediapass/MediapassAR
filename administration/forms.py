@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
+from mediatheque.models import Mediatheque
 
-#Formulaire pour ajouter un utilisateur
+# Formulaire pour ajouter un utilisateur
 class AddUserForm(forms.ModelForm):
      class Meta:
          model = User
@@ -32,3 +33,36 @@ class AddUserForm(forms.ModelForm):
          if User.objects.filter(username=username).exists():
              raise forms.ValidationError("Ce nom d'utilisateur est déjà utilisé")
          return username
+
+class create_mediathequeForm(forms.ModelForm):
+    class Meta:
+        model = Mediatheque
+        fields = ('name', 'address', 'phone', 'email','user')
+        labels = {
+            'name': 'Nom de la médiathèque',
+            'address': 'Adresse',
+            'phone': 'Téléphone',
+            'email': 'Email',
+            'user': 'Utilisateur',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'user': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    # On regarde si le nom est déjà utilisé dans une autre médiathèque
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Mediatheque.objects.filter(name=name).exists():
+            raise forms.ValidationError("Ce nom est déjà utilisé")
+        return name
+
+    # On regarder si l'utilisateur est déjà utilisé dans une autre médiathèque
+    def clean_user(self):
+        user = self.cleaned_data['user']
+        if Mediatheque.objects.filter(user=user).exists():
+            raise forms.ValidationError("Cet utilisateur est déjà utilisé")
+        return user

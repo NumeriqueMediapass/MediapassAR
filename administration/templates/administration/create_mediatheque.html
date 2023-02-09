@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Ajouter une mediathèque{% endblock %}
+{% block content %}
+    <h1>Ajouter une mediathèque</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ajouter</button>
+    </form>
+{% endblock %}
