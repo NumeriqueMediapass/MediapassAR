@@ -7,7 +7,7 @@
     <ul>
         {% for mediatheque in mediatheques %}
             <li>
-                <a href="{%url "mediatheque_info" id=mediatheque.id%}">
+                <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
                 {{ mediatheque.name }}
                 </a>
             </li>

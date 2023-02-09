@@ -17,12 +17,12 @@ def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            email=request.POST.get('email')
-            username=request.POST.get('username')
-            first_name=request.POST.get('first_name')
-            last_name=request.POST.get('last_name')
-            password1=request.POST.get('password1')
-            password2=request.POST.get('password2')
+            email = request.POST.get('email')
+            username = request.POST.get('username')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
             try:
                 if User.objects.filter(email=email).exists():
                     exception = Exception('Cette adresse mail est déjà utilisée')
@@ -60,7 +60,7 @@ def signup(request):
 def confirm_signup_error(request):
     return render(request, 'connexion/confirm_signup_error.html')
 
-#Fonction qui confirme l'inscription au site
+# Fonction qui confirme l'inscription au site
 def confirm_signup(request, token):
     # Vérification du token
     if request.method == 'POST':
@@ -68,10 +68,10 @@ def confirm_signup(request, token):
         username = Token.objects.get(token=token).username
         user = User.objects.get(username=username)
         if user is not None:
-            if(username == username_get):
+            if username == username_get:
                 user.is_active = True
                 user.save()
-                #Supprimer le token de la table token
+                # Supprimer le token de la table token
                 Token.objects.filter(token=token).delete()
                 return redirect('login')
             else:
@@ -89,7 +89,9 @@ def login_view(request):
     if request.method == 'POST':
         # Récupération des données d'identification de l'utilisateur
         username = request.POST.get('username')
+        print('username', username)
         password = request.POST.get('password')
+        print('password', password)
 
         # Authentification de l'utilisateur
         user = authenticate(request, username=username, password=password)
@@ -109,6 +111,6 @@ def logout_view(request):
         
 # Fonction qui permet d'accéder à la page d'accueil
 def acceuil(request):
-    if(request.user.is_active == False):
+    if not request.user.is_active:
         return redirect('login')
     return render(request, 'connexion/acceuil.html')

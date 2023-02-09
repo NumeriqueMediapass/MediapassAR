@@ -5,6 +5,7 @@
 
     <h1>Information Mediatheque</h1>
     <form>
+    {% csrf_token %}
         <p><input type="text" name = "name" value="{{ mediatheque.name }}"></p>
         <p><input type="text" name = "address" value="{{ mediatheque.address }}"></p>
         <p><input type="text" name = "phone" value="{{ mediatheque.phone }}"></p>

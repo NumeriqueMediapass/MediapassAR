@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import index, print_users, edit_user, create_user, delete_users, create_mediatheque, get_mediatheques, mediatheque_info
+from .views import index, print_users, edit_user, create_user, delete_users, create_mediatheque, get_mediatheques,\
+     edit_mediatheque
 
 urlpatterns = [
     path('admininstration/', index, name='index_admin'),
@@ -9,5 +10,5 @@ urlpatterns = [
     path('admininstration/delete_users/', delete_users, name='delete_users'),
     path('admininstration/create_mediatheque/', create_mediatheque, name='create_mediatheque'),
     path('admininstration/mediatheques/', get_mediatheques, name='get_mediatheques'),
-    path('admininstration/mediatheque_info/<int:id>', mediatheque_info, name='mediatheque_info'),
+    path('admininstration/edit_mediatheque/<int:id>', edit_mediatheque, name='edit_mediatheque'),
 ]

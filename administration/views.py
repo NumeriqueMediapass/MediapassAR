@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -72,7 +73,7 @@ def edit_user(request, id):
 
 # Fonction qui permet de créer un utilisateur
 def create_user(request):
-    form = AddUserForm(request.POST or None)
+    form = UserCreationForm(request.POST or None)
     # On vérifie si le formulaire est valide
     if form.is_valid():
         # On sauvegarde les informations de l'utilisateur
@@ -96,19 +97,36 @@ def get_mediatheques(request):
     mediatheques = Mediatheque.objects.all()
     return render(request, 'administration/list_mediatheque.html', {'mediatheques': mediatheques})
 
-# Fonction qui permet d'afficher les informations des médithèques
-def mediatheque_info(request, id):
-    mediatheque = Mediatheque.objects.get(id=id)
-    return render(request, 'administration/print_mediatheque.html', {'mediatheque': mediatheque})
 
 # Fonction qui permet de modifier les informations d'une médiathèque
 def edit_mediatheque(request, id):
     if request.method == 'POST':
         mediatheque = Mediatheque.objects.get(id=id)
-        mediatheque.nom = request.POST['nom']
-        mediatheque.adresse = request.POST['adresse']
-        mediatheque.telephone = request.POST['telephone']
+        if mediatheque.name != request.POST['name']:
+            if Mediatheque.objects.filter(name=request.POST['name']).exists():
+                messages.error(request, "Ce nom de médiathèque est déjà utilisé")
+                return redirect('edit_mediatheque', id=id)
+            else:
+                mediatheque.name = request.POST['name']
+        if mediatheque.address != request.POST['address']:
+            if Mediatheque.objects.filter(address=request.POST['address']).exists():
+                messages.error(request, "Cette adresse est déjà utilisée")
+                return redirect('edit_mediatheque', id=id)
+            else:
+                mediatheque.address = request.POST['address']
+        if mediatheque.phone != request.POST['phone']:
+            if Mediatheque.objects.filter(phone=request.POST['phone']).exists():
+                messages.error(request, "Ce numéro de téléphone est déjà utilisé")
+                return redirect('edit_mediatheque', id=id)
+            else:
+                mediatheque.phone = request.POST['phone']
+        if mediatheque.email != request.POST['email']:
+            if Mediatheque.objects.filter(email=request.POST['email']).exists():
+                messages.error(request, "Cette adresse email est déjà utilisée")
+                return redirect('edit_mediatheque', id=id)
+            else:
+                mediatheque.email = request.POST['email']
         mediatheque.save()
         return redirect('get_mediatheques')
     mediatheque = Mediatheque.objects.get(id=id)
-    return render(request, 'administration/edit_mediatheque.html', {'mediatheque': mediatheque})
+    return render(request, 'administration/print_mediatheque.html', {'mediatheque': mediatheque})
