@@ -19,10 +19,10 @@ def print_users(request):
     # On les affiche dans la page users.html
     return render(request, 'administration/users.html', {'users': users})
 
-#Fonction qui permet de supprimer un ou plusieurs utilisateurs
+# Fonction qui permet de supprimer un ou plusieurs utilisateurs
 def delete_users(request):
     if request.method == 'POST':
-        #On récupère les id des utilisateurs à supprimer dans les checkbox cochées
+        # On récupère les id des utilisateurs à supprimer dans les checkbox cochées
         users = request.POST.getlist('users')
         for user in users:
             User.objects.get(id=user).delete()
@@ -74,7 +74,7 @@ def edit_user(request, id):
 # Fonction qui permet de créer un utilisateur
 def create_user(request):
     form = AddUserForm(request.POST or None)
-    #On vérifie si le formulaire est valide
+    # On vérifie si le formulaire est valide
     if form.is_valid():
         # On sauvegarde les informations de l'utilisateur
         form.save()
@@ -96,3 +96,8 @@ def create_mediatheque(request):
 def get_mediatheques(request):
     mediatheques = Mediatheque.objects.all()
     return render(request, 'administration/list_mediatheque.html', {'mediatheques': mediatheques})
+
+# Fonction qui permet d'afficher les informations des médithèques
+def mediatheque_info(request, id):
+    mediatheque = Mediatheque.objects.get(id=id)
+    return render(request, 'administration/print_mediatheque.html', {'mediatheque': mediatheque})
