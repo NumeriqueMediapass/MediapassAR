@@ -17,8 +17,6 @@ class AnimationForm(forms.ModelForm):
             'image': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
-
-
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get('name')
