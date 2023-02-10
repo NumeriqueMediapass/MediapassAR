@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%block title %}Accueil{% endblock %}
+    {% block content%}
+        <h1>Nouveautée ! </h1>
+
+        <!-- On affiche les 5 derniers ateliers créer-->
+        <h2>Les 5 derniers ateliers</h2>
+
+        {% for atelier in animations %}
+            <div class="atelier">
+                <h3>
+                        {{ atelier.name }} {{ atelier.users.mediatheque.name }}
+                </h3>
+                <p>{{ atelier.description }}</p>
+            </div>
+        {% endfor %}
+    {% endblock %}

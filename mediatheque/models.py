@@ -16,12 +16,13 @@ class Mediatheque(models.Model):
 class Animation(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    date = models.DateTimeField()
+    date = models.DateField()
     hour = models.TimeField()
+    hour_end = models.TimeField()
     age = models.IntegerField()
+    age_end = models.PositiveIntegerField()
     image = models.ImageField(upload_to='images/')
     users = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
-

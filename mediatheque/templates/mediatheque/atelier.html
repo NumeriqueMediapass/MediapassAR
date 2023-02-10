@@ -3,12 +3,16 @@
 {% block content %}
     <h1>Ateliers</h1>
     {% for atelier in animations %}
+
+        <form method="POST">
+        {% csrf_token %}
         <ul>
         <a href="{%url "edit_atelier" id=atelier.id%}">
                 <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
             </a>
+        <input type="checkbox" name="atelier" value="{{ atelier.users.mediatheque.id }}">Supprimer l'atelier
         </ul>
-
-
-    {% endfor %}
+        {% endfor %}
+        <button type="submit" formmethod="POST" formaction="{% url "delete_atelier" %}">Supprimer</button>
+    </form>
 {% endblock %}

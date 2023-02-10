@@ -2,12 +2,14 @@ from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.admin import User
+
+from mediatheque.models import Animation
 from website.forms import EditProfileForm, PasswordChangingForm
 
 # Create your views here.
 
 def acceuil(request):
-    return render(request, 'website/acceuil.html')
+    return render(request, 'website/accueil.html')
 
 def monCompte(request):
     return render(request, 'website/monCompte.html')
@@ -56,3 +58,8 @@ def deleteProfile(request):
     else:
  
         return render(request, 'website/delete_account.html')
+
+# On récupère toutes les animations
+def print_atelier(request):
+    animations = Animation.objects.all()
+    return render(request, 'website/accueil.html', {'animations': animations})

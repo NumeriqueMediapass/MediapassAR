@@ -9,11 +9,19 @@ from mediatheque.models import Mediatheque
 
 # Create your views here.
 def index(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     return render(request, 'administration/index.html')
 
 
 # Fonction pour afficher les utilisateurs de la base de données
 def print_users(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     # On récupère tous les utilisateurs de la base de données ainsi que leurs informations
     users = User.objects.all()
     # On les affiche dans la page users.html
@@ -21,6 +29,11 @@ def print_users(request):
 
 # Fonction qui permet de supprimer un ou plusieurs utilisateurs
 def delete_users(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
+
     if request.method == 'POST':
         # On récupère les id des utilisateurs à supprimer dans les checkbox cochées
         users = request.POST.getlist('users')
@@ -30,6 +43,10 @@ def delete_users(request):
 
 # Fonction qui permet de modifier les informations d'un utilisateur
 def edit_user(request, id):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     if request.method == 'POST':
         # On récupère l'utilisateur dont l'id est passé en paramètre
         # user_info = User.objects.get(id=id)
@@ -73,6 +90,10 @@ def edit_user(request, id):
 
 # Fonction qui permet de créer un utilisateur
 def create_user(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     form = UserCreationForm(request.POST or None)
     # On vérifie si le formulaire est valide
     if form.is_valid():
@@ -83,6 +104,10 @@ def create_user(request):
 
 # Fonction qui permet de créer une mediatheque
 def create_mediatheque(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     if request.method == 'POST':
         form = create_mediathequeForm(request.POST)
         if form.is_valid():
@@ -94,12 +119,20 @@ def create_mediatheque(request):
 
 # Fonction qui récupère la liste des médiathèques
 def get_mediatheques(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     mediatheques = Mediatheque.objects.all()
     return render(request, 'administration/list_mediatheque.html', {'mediatheques': mediatheques})
 
 
 # Fonction qui permet de modifier les informations d'une médiathèque
 def edit_mediatheque(request, id):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
     mediatheque = Mediatheque.objects.get(id=id)
     if request.method == 'POST':
         form = edit_mediathequeForm(request.POST, instance=mediatheque)
@@ -112,6 +145,11 @@ def edit_mediatheque(request, id):
 
 # Fonction qui permet de supprimer une/des médiathèques
 def delete_mediatheque(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
+
     if request.method == 'POST':
         # On récupère les id des médiathèque à supprimer dans les checkbox cochées
         mediatheques = request.POST.getlist('mediatheques')

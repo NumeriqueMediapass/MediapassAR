@@ -75,4 +75,4 @@ def logout_view(request):
 def acceuil(request):
     if not request.user.is_active:
         return redirect('login')
-    return render(request, 'connexion/acceuil.html')
+    return render(request, 'connexion/accueil.html')
