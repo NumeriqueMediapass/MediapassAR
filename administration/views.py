@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
-from administration.forms import AddUserForm, create_mediathequeForm
+from administration.forms import AddUserForm, edit_mediathequeForm, create_mediathequeForm
 from mediatheque.models import Mediatheque
 
 
@@ -100,33 +100,21 @@ def get_mediatheques(request):
 
 # Fonction qui permet de modifier les informations d'une médiathèque
 def edit_mediatheque(request, id):
-    if request.method == 'POST':
-        mediatheque = Mediatheque.objects.get(id=id)
-        if mediatheque.name != request.POST['name']:
-            if Mediatheque.objects.filter(name=request.POST['name']).exists():
-                messages.error(request, "Ce nom de médiathèque est déjà utilisé")
-                return redirect('edit_mediatheque', id=id)
-            else:
-                mediatheque.name = request.POST['name']
-        if mediatheque.address != request.POST['address']:
-            if Mediatheque.objects.filter(address=request.POST['address']).exists():
-                messages.error(request, "Cette adresse est déjà utilisée")
-                return redirect('edit_mediatheque', id=id)
-            else:
-                mediatheque.address = request.POST['address']
-        if mediatheque.phone != request.POST['phone']:
-            if Mediatheque.objects.filter(phone=request.POST['phone']).exists():
-                messages.error(request, "Ce numéro de téléphone est déjà utilisé")
-                return redirect('edit_mediatheque', id=id)
-            else:
-                mediatheque.phone = request.POST['phone']
-        if mediatheque.email != request.POST['email']:
-            if Mediatheque.objects.filter(email=request.POST['email']).exists():
-                messages.error(request, "Cette adresse email est déjà utilisée")
-                return redirect('edit_mediatheque', id=id)
-            else:
-                mediatheque.email = request.POST['email']
-        mediatheque.save()
-        return redirect('get_mediatheques')
     mediatheque = Mediatheque.objects.get(id=id)
-    return render(request, 'administration/print_mediatheque.html', {'mediatheque': mediatheque})
+    if request.method == 'POST':
+        form = edit_mediathequeForm(request.POST, instance=mediatheque)
+        if form.is_valid():
+            form.save()
+            return redirect('get_mediatheques')
+    else:
+        form = edit_mediathequeForm(instance=mediatheque)
+    return render(request, 'administration/print_mediatheque.html', {'form': form})
+
+# Fonction qui permet de supprimer une/des médiathèques
+def delete_mediatheque(request):
+    if request.method == 'POST':
+        # On récupère les id des médiathèque à supprimer dans les checkbox cochées
+        mediatheques = request.POST.getlist('mediatheques')
+        for mediatheque in mediatheques:
+            Mediatheque.objects.get(id=mediatheque).delete()
+        return redirect('get_mediatheques')

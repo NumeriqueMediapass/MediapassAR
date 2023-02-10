@@ -4,6 +4,7 @@
 {% block content %}
     <h1>Liste des médiathèque</h1>
     <form method="POST">
+    {% csrf_token %}
     <ul>
         {% for mediatheque in mediatheques %}
             <li>
@@ -15,7 +16,7 @@
         {% endfor %}
 
     </ul>
-
+    <button type="submit" formmethod="POST" formaction="{% url "delete_mediatheque" %}">Supprimer</button>
     </form>
 
 {% endblock %}

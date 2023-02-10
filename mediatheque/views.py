@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from mediatheque.forms import AnimationForm
+from mediatheque.forms import AnimationForm, AnimationUpdateForm
 from mediatheque.models import Animation
 
 
@@ -36,10 +36,10 @@ def add_atelier(request):
 def edit_atelier(request, id):
     animation = Animation.objects.get(id=id)
     if request.method == 'POST':
-        form = AnimationForm(request.POST, request.FILES, instance=animation)
+        form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
         if form.is_valid():
             form.save()
             return redirect('print_atelier')
     else:
-        form = AnimationForm(instance=animation)
+        form = AnimationUpdateForm(instance=animation)
     return render(request, 'mediatheque/edit_atelier.html', {'form': form})

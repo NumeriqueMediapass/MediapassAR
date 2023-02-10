@@ -4,12 +4,9 @@
 {% block content %}
 
     <h1>Information Mediatheque</h1>
-    <form>
+    <form method="POST">
     {% csrf_token %}
-        <p><input type="text" name = "name" value="{{ mediatheque.name }}"></p>
-        <p><input type="text" name = "address" value="{{ mediatheque.address }}"></p>
-        <p><input type="text" name = "phone" value="{{ mediatheque.phone }}"></p>
-        <p><input type="text" name = "email" value="{{ mediatheque.email }}"></p>
+        {{ form.as_p}}
 
         <p><input type="submit" value="Modifier"></p>
     </form>

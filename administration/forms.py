@@ -35,6 +35,7 @@ class AddUserForm(forms.ModelForm):
          return username
 
 class create_mediathequeForm(forms.ModelForm):
+    user = forms.ModelChoiceField(queryset=User.objects.all())
     class Meta:
         model = Mediatheque
         fields = ('name', 'address', 'phone', 'email','user')
@@ -66,3 +67,30 @@ class create_mediathequeForm(forms.ModelForm):
         if Mediatheque.objects.filter(user=user).exists():
             raise forms.ValidationError("Cet utilisateur est déjà utilisé")
         return user
+
+class edit_mediathequeForm(forms.ModelForm):
+    user = forms.ModelChoiceField(queryset=User.objects.all())
+    class Meta:
+        model = Mediatheque
+        fields = ('name', 'address', 'phone', 'email','user')
+        labels = {
+            'name': 'Nom de la médiathèque',
+            'address': 'Adresse',
+            'phone': 'Téléphone',
+            'email': 'Email',
+            'user': 'Utilisateur',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'user': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    # On regarde si le nom est déjà utilisé dans une autre médiathèque
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Mediatheque.objects.filter(name=name).exists():
+            raise forms.ValidationError("Ce nom est déjà utilisé")
+        return name
