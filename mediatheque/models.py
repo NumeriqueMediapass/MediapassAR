@@ -26,3 +26,15 @@ class Animation(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    animation = models.ForeignKey(Animation, on_delete=models.CASCADE)
+    Validated = models.BooleanField(default=False)
+    mediatheque = models.ForeignKey(Mediatheque, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+

@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.admin import User
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+
+from mediatheque.models import Reservation
+
 
 #Class pour modifier le mot de passe d'un utilisateur
 class PasswordChangingForm(PasswordChangeForm):
@@ -23,3 +25,11 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name')
+
+
+# Class qui permet d'inscrire un utilisateur à une animation
+
+class InscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ('user', 'animation')

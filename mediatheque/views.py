@@ -1,7 +1,8 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 
 from mediatheque.forms import AnimationForm, AnimationUpdateForm
-from mediatheque.models import Animation
+from mediatheque.models import Animation, Reservation
 
 
 # Create your views here.
@@ -74,3 +75,22 @@ def edit_atelier(request, id):
     else:
         form = AnimationUpdateForm(instance=animation)
     return render(request, 'mediatheque/edit_atelier.html', {'form': form})
+
+# Fonction qui permet de valider l'inscription d'un utilisateur à une animation de notre médiathèque et
+# de lui envoyer un mail de confirmation
+
+def inscription(request, id):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
+
+# Fonction qui permet de récupérer les reservations d'un utilisateur
+def get_inscription(request):
+    # On regarde si l'utilisateur est un utilisateur sans droits
+    if not request.user.is_superuser or not request.user.is_staff:
+        # On le renvoie vers la page d'accueil
+        return redirect('acceuil')
+    # On récupère les réservations de la médiathèque de l'utilisateur
+    reservations = Reservation.objects.filter(mediatheque__user=request.user)
+    return render(request, 'mediatheque/confirm_inscription.html', {'reservations': reservations})

@@ -3,13 +3,15 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.admin import User
 
-from mediatheque.models import Animation
+from mediatheque.models import Animation, Reservation, Mediatheque
 from website.forms import EditProfileForm, PasswordChangingForm
 
 # Create your views here.
 
 def acceuil(request):
-    return render(request, 'website/accueil.html')
+    #On récupère toutes les animations
+    animations = Animation.objects.all()
+    return render(request, 'website/accueil.html', {'animations': animations})
 
 def monCompte(request):
     return render(request, 'website/monCompte.html')
@@ -59,7 +61,22 @@ def deleteProfile(request):
  
         return render(request, 'website/delete_account.html')
 
-# On récupère toutes les animations
-def print_atelier(request):
-    animations = Animation.objects.all()
-    return render(request, 'website/accueil.html', {'animations': animations})
+# Fonction qui inscrit un utilisateur a une animation
+def inscription(request):
+    # On récupère l'utilisateur connecté
+    user = request.user
+    # On récupère l'animation
+    animation = request.POST.get('atelier')
+    # On récupère la médiathèque
+    mediatheque = request.POST.get('mediatheque')
+    tmp = Mediatheque.objects.get(id=mediatheque)
+    # On vérifie si l'utilisateur est déjà inscrit
+    if Reservation.objects.filter(user=user, animation=animation).exists():
+        messages.error(request, "Vous êtes déjà inscrit à cette animation")
+        return redirect('acceuil')
+    # On inscrit l'utilisateur à l'animation
+    reservation = Reservation(user=user, animation=Animation.objects.get(id=animation),
+                              mediatheque=tmp)
+    reservation.save()
+    return redirect('acceuil')
+
