@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from app import settings
 from . import views
 from .views import print_atelier, add_atelier, edit_atelier, delete_atelier, get_inscription, print_animation, \
-    confirm_inscription
+    confirm_inscription, delete_inscription
 
 urlpatterns = [
     path('mediatheque/index.html', views.index, name='index_mediatheque'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('mediatheque/confirm_inscription/<int:id>', get_inscription, name='get_inscription'),
     path('mediatheque/list_animation.html', print_animation, name='print_animation'),
     path('mediatheque/confirm_inscription/', confirm_inscription, name='confirm_inscription'),
+    path('mediatheque/delete_inscription.html', delete_inscription, name='delete_inscription'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

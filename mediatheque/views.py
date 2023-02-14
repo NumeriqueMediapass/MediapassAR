@@ -19,7 +19,7 @@ def print_atelier(request):
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
-    else :
+    else:
         # On regarde si l'utilisateur est un admin
         if request.user.is_superuser:
             # On récupère toutes les animations
@@ -61,7 +61,7 @@ def delete_atelier(request):
         return redirect('print_atelier')
 
 
-def edit_atelier(request, id):
+def edit_atelier(request, id ):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -89,7 +89,8 @@ def get_inscription(request, id):
         # On récupère les réservations de l'animation
         reservations = Reservation.objects.filter(animation=animation)
 
-        return render(request, 'mediatheque/confirm_inscription.html', {'animation': animation, 'reservations': reservations})
+        return render(request, 'mediatheque/confirm_inscription.html',
+                      {'animation': animation, 'reservations': reservations})
 
 # Fonction qui permet de confirmer l'inscription d'un utilisateur à une animation de notre médiathèque
 def confirm_inscription(request):
@@ -108,6 +109,23 @@ def confirm_inscription(request):
     return redirect('get_inscription', id=id)
 
 
+# Fonction qui permet de supprimer l'inscription d'un utilisateur à une animation de notre médiathèque
+def delete_inscription(request):
+    # On récupère l'animation et l'utilisateur
+    id = request.POST.get('animation_id_supp')
+    animation = Animation.objects.get(id=id)
+    user = User.objects.get(id=request.POST.get('user_id_supp'))
+    # On récupère la réservation de l'utilisateur pour l'animation
+    reservation = Reservation.objects.get(animation_id=animation, user_id=user)
+    # On vérifie que la variable Validated est déjà à True
+    if reservation.Validated:
+        # On change la valeur de la variable validated
+        reservation.Validated = False
+        # On sauvegarde la réservation
+        reservation.save()
+    return redirect('get_inscription', id=id)
+
+
 def print_animation(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
@@ -117,5 +135,5 @@ def print_animation(request):
         # On récupère les animations de la médiathèque de l'utilisateur
         mediatheques = Mediatheque.objects.get(user=request.user)
         animations = Animation.objects.filter(users_id=request.user)
-        return render(request, 'mediatheque/list_animation.html',
-                      {'mediatheques': mediatheques, 'animations': animations})
+        return render(request,
+                      'mediatheque/list_animation.html',{'mediatheques': mediatheques, 'animations': animations})

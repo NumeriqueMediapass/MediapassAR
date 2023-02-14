@@ -13,19 +13,25 @@
     <p><img src="{{ animation.image.url }}" alt="image de l'animation"></p>
 
     <h2>Utilisateur inscrit a l'atelier</h2>
+    <form method="post">
+        {% csrf_token %}
     {% for user in reservations %}
         {% if user.Validated %}
-            <p>{{ user.user.username }}</p>
+            {{ user.user.username }}
+            <input type="hidden" name="user_id_supp" value="{{ user.user.id }}">
+            <input type="hidden" name="animation_id_supp" value="{{ animation.id }}">
+            <button type="submit" formmethod="POST"
+                    formaction="{% url "delete_inscription"%}">
+                Supprimer</button>
         {% endif %}
     {% endfor %}
 
-    <h2>Utilisateur voulant s'inscrire dans l'atelier </h2>
+    <h2>Utilisateur voulant s'inscrire à l'atelier </h2>
     {% for user in reservations %}
-    <form method="post">
-        {% csrf_token %}
+
         {% if not user.Validated %}
             <p>
-                {{ user.username }}
+                {{ user.user.username }}
                 <input type="hidden" name="user_id" value="{{ user.id }}">
                 <input type="hidden" name="animation_id" value="{{ animation.id }}">
                 <button type="submit" formmethod="POST"
