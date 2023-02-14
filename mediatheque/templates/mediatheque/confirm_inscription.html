@@ -12,17 +12,26 @@
     <p>Age de fin : {{ animation.age_end }}</p>
     <p><img src="{{ animation.image.url }}" alt="image de l'animation"></p>
 
+    <h2>Utilisateur inscrit a l'atelier</h2>
+    {% for user in reservations %}
+        {% if user.Validated %}
+            <p>{{ user.user.username }}</p>
+        {% endif %}
+    {% endfor %}
+
     <h2>Utilisateur voulant s'inscrire dans l'atelier </h2>
-    {% for user in users %}
+    {% for user in reservations %}
     <form method="post">
         {% csrf_token %}
-        <p>
-            {{ user.username }}
-            <input type="hidden" name="user_id" value="{{ user.id }}">
-            <input type="hidden" name="animation_id" value="{{ animation.id }}">
-            <button type="submit" formmethod="POST"
+        {% if not user.Validated %}
+            <p>
+                {{ user.username }}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <input type="hidden" name="animation_id" value="{{ animation.id }}">
+                <button type="submit" formmethod="POST"
                     formaction="{% url "confirm_inscription"%}">
                 Valider</button>
         </p>
+        {% endif %}
     {% endfor %}
 {% endblock %}

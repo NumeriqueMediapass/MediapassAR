@@ -88,12 +88,8 @@ def get_inscription(request, id):
         animation = Animation.objects.get(id=id)
         # On récupère les réservations de l'animation
         reservations = Reservation.objects.filter(animation=animation)
-        # On récupère les utilisateurs qui ont réservé l'animation
-        users = []
-        for reservation in reservations:
-            users.append(reservation.user)
-        # On récupère les utilisateurs qui ont réservé l'animation
-        return render(request, 'mediatheque/confirm_inscription.html', {'users': users, 'animation': animation})
+
+        return render(request, 'mediatheque/confirm_inscription.html', {'animation': animation, 'reservations': reservations})
 
 # Fonction qui permet de confirmer l'inscription d'un utilisateur à une animation de notre médiathèque
 def confirm_inscription(request):
