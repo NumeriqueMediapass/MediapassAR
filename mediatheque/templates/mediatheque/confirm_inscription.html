@@ -3,11 +3,26 @@
 
 {% block content %}
     <h1> Validation des inscriptions aux ateliers</h1>
-    {% for reservation in reservations %}
-        <h2> {{ reservation.animation.name }} </h2>
-                <p>{{ reservation.user.username }}</p>
-                <form method="POST">
-                    <input type="submit" value="Valider">
-                </form>
+    <p> Vous avez choisi l'atelier suivant : {{ animation.name }}</p>
+    <p> Description : {{ animation.description }}</p>
+    <p>Date : {{ animation.date }}</p>
+    <p>Heure de début : {{ animation.hour }}</p>
+    <p>Heure de fin : {{ animation.hour_end }}</p>
+    <p>Age de début : {{ animation.age }}</p>
+    <p>Age de fin : {{ animation.age_end }}</p>
+    <p><img src="{{ animation.image.url }}" alt="image de l'animation"></p>
+
+    <h2>Utilisateur voulant s'inscrire dans l'atelier </h2>
+    {% for user in users %}
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            {{ user.username }}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden" name="animation_id" value="{{ animation.id }}">
+            <button type="submit" formmethod="POST"
+                    formaction="{% url "confirm_inscription"%}">
+                Valider</button>
+        </p>
     {% endfor %}
 {% endblock %}

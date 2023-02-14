@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from mediatheque.models import Reservation
 
 
-#Class pour modifier le mot de passe d'un utilisateur
+# Class pour modifier le mot de passe d'un utilisateur
 class PasswordChangingForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
     new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
