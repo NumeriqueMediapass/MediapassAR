@@ -125,7 +125,7 @@ def delete_inscription(request):
         reservation.save()
     return redirect('get_inscription', id=id)
 
-
+# Fonction qui permet de récupérer les animations de la médiathèque de l'utilisateur
 def print_animation(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:

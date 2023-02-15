@@ -22,6 +22,7 @@ class Animation(models.Model):
     age = models.IntegerField()
     age_end = models.PositiveIntegerField()
     image = models.ImageField(upload_to='images/')
+    nb_places = models.IntegerField()
     users = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -32,6 +33,7 @@ class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     animation = models.ForeignKey(Animation, on_delete=models.CASCADE)
     Validated = models.BooleanField(default=False)
+    nb_person = models.IntegerField(default=1)
     mediatheque = models.ForeignKey(Mediatheque, on_delete=models.CASCADE)
 
     def __str__(self):

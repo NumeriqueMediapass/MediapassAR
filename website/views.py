@@ -9,9 +9,19 @@ from website.forms import EditProfileForm, PasswordChangingForm
 # Create your views here.
 
 def acceuil(request):
-    #On récupère toutes les animations
+    # On récupère toutes les animations
     animations = Animation.objects.all()
-    return render(request, 'website/accueil.html', {'animations': animations})
+    # On récupère toutes les réservations
+    reservations = Reservation.objects.all()
+    # On transforme les réservations en liste d'id d'utilisateur
+    reservation = []
+    for res in reservations:
+        reservation.append(res.user.id)
+    print('reservations : ', reservation)
+    # On récupère l'utilisateur
+    user = request.user
+    return render(request, 'website/accueil.html', {'animations': animations, 'reservation': reservation
+                                                    , 'user': user})
 
 def monCompte(request):
     return render(request, 'website/monCompte.html')
@@ -70,13 +80,15 @@ def inscription(request):
     # On récupère la médiathèque
     mediatheque = request.POST.get('mediatheque')
     tmp = Mediatheque.objects.get(id=mediatheque)
+    # On récupère le nombre de personne
+    nb_person = request.POST.get('nb_person')
     # On vérifie si l'utilisateur est déjà inscrit
     if Reservation.objects.filter(user=user, animation=animation).exists():
         messages.error(request, "Vous êtes déjà inscrit à cette animation")
         return redirect('acceuil')
     # On inscrit l'utilisateur à l'animation
     reservation = Reservation(user=user, animation=Animation.objects.get(id=animation),
-                              mediatheque=tmp)
+                              mediatheque=tmp, nb_person=nb_person)
     reservation.save()
     return redirect('acceuil')
 

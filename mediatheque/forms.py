@@ -7,7 +7,7 @@ from mediatheque.models import Animation
 class AnimationForm(forms.ModelForm):
     class Meta:
         model = Animation
-        fields = ('name', 'description', 'date', 'hour', 'hour_end',  'age', 'age_end', 'image')
+        fields = ('name', 'description', 'date', 'hour', 'hour_end',  'age', 'age_end', 'image','nb_places')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
@@ -17,6 +17,7 @@ class AnimationForm(forms.ModelForm):
             'age': forms.NumberInput(attrs={'class': 'form-control'}),
             'age_end': forms.NumberInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'nb_places': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
     def clean(self):
@@ -59,7 +60,7 @@ class AnimationForm(forms.ModelForm):
 class AnimationUpdateForm(forms.ModelForm):
     class Meta:
         model = Animation
-        fields = ('name', 'description', 'date', 'hour', 'hour_end',  'age', 'age_end', 'image')
+        fields = ('name', 'description', 'date', 'hour', 'hour_end',  'age', 'age_end', 'image', 'nb_places')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
@@ -69,6 +70,7 @@ class AnimationUpdateForm(forms.ModelForm):
             'age': forms.NumberInput(attrs={'class': 'form-control'}),
             'age_end': forms.NumberInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'nb_places': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
     def clean(self):
@@ -81,3 +83,4 @@ class AnimationUpdateForm(forms.ModelForm):
         age = cleaned_data.get('age')
         age_end = cleaned_data.get('age_end')
         image = cleaned_data.get('image')
+        nb_places = cleaned_data.get('nb_places')

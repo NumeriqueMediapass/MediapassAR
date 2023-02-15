@@ -16,13 +16,25 @@
                     <p><label>Heure de fin : {{ atelier.hour_end }}</label></p>
                     <img src="{{ atelier.image.url }}" alt="Atelier image">
                 {% if user.is_authenticated %}
-                    <form method="POST">
+                    <!-- Si l'utilisateur connecté est déjà dans la table Reservation on affiche un bouton pour
+                    se désinscre -->
+
+                    {% if user.id in reservation %}
+                        <form method="POST">
                         {% csrf_token %}
-                        <input type="hidden" name="atelier" value="{{ atelier.id }}">
-                        <input type="hidden" name="mediatheque" value="{{ atelier.users.mediatheque.id }}">
-                        <input type="hidden" name="user" value="{{ user.id }}">
-                        <input type="submit" value="S'inscrire dans l'atelier" formaction="{% url "inscription" %}">
-                    </form>
+                            Déjà inscrit
+                        </form>
+                    {% else %}
+                        <form method="POST">
+                        {% csrf_token %}
+                            <input type="hidden" name="atelier" value="{{ atelier.id }}">
+                            <input type="hidden" name="mediatheque" value="{{ atelier.users.mediatheque.id }}">
+                            <input type="hidden" name="user" value="{{ user.id }}">
+                            <input type="submit" value="S'inscrire dans l'atelier" formaction="{% url "inscription" %}">
+                            <label>Nombre de personne : </label><input type="number" name="nb_person" value="1" min="1"
+                                                                   max="{{ atelier.nb_place }}">
+                        </form>
+                    {% endif %}
                 {% endif %}
                 </li>
             {% endfor %}
