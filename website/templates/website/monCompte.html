@@ -10,6 +10,8 @@
     <!--Affichage de champs pour modifier les informations du compte-->
     <form method="post">
         {% csrf_token %}
+        <a href="{% url 'mesReservations'%}">Accéder à vos réservations  </a>
+        <br>
         <a href="{% url 'password_change'%}">Modifier votre mot de passe </a>
         <br>
         <a href="{% url 'editProfile'%}">Modifier votre compte </a>

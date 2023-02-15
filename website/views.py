@@ -92,3 +92,30 @@ def inscription(request):
     reservation.save()
     return redirect('acceuil')
 
+# Fonction qui permet de voir les animations auxquelles l'utilisateur est inscrit
+def mesReservations(request):
+    # On récupère l'utilisateur connecté
+    user = request.user
+    # On récupère toutes les réservations de l'utilisateur
+    reservations = Reservation.objects.filter(user=user)
+    animations = []
+    for reservation in reservations:
+        animations.append(reservation.animation)
+    return render(request, 'website/mesReservations.html', {'animations': animations})
+
+# Fonction qui affiche l'animation sélectionnée
+def animation(request, id):
+    # On récupère l'animation
+    animation = Animation.objects.get(id=id)
+    return render(request, 'website/printAtelier.html', {'animation': animation})
+
+# Fonction qui permet de supprimer une réservation
+def deleteReservation(request, id):
+    # On récupère l'utilisateur connecté
+    user = request.user
+    # On récupère la réservation
+    reservation = Reservation.objects.get(animation_id=id, user_id=user.id)
+    # On vérifie si l'utilisateur est bien celui qui a fait la réservation
+    if user == reservation.user:
+        reservation.delete()
+    return redirect('mesReservations')

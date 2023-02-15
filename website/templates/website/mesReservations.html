@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Liste des ateliers ou vous êtes inscrits {% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% for anim in animations %}
+            <p><a href="{%url "animation" id=anim.id%}">
+                {{ anim.name }}
+                </a></p>
+
+        {% endfor %}
+    </form>
+{% endblock %}
