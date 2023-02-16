@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.contrib.auth.admin import User
+
+from app import settings
 from mediatheque.forms import AnimationForm, AnimationUpdateForm
 from mediatheque.models import Animation, Reservation, Mediatheque
 
@@ -61,12 +62,12 @@ def delete_atelier(request):
         return redirect('print_atelier')
 
 
-def edit_atelier(request, id ):
+def edit_atelier(request, id_animation):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
-    animation = Animation.objects.get(id=id)
+    animation = Animation.objects.get(id=id_animation)
     if request.method == 'POST':
         form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
         if form.is_valid():
@@ -106,6 +107,14 @@ def confirm_inscription(request):
         reservation.Validated = True
         # On sauvegarde la réservation
         reservation.save()
+        # On envoie un mail à l'utilisateur pour lui dire que sa réservation a été validée
+        subject = 'Confirmation de votre inscription à l\'atelier ' + animation.name
+        message = 'Bonjour, \n\nVotre inscription à l\'atelier ' + animation.name + ' a été validée. ' \
+                                                                                    '\n\nCordialement, ' \
+                                                                                    '\n\nL\'équipe de la médiathèque'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [reservation.user.email]
+        send_mail(subject, message, email_from, recipient_list)
     return redirect('get_inscription', id=animation.id)
 
 
@@ -136,4 +145,4 @@ def print_animation(request):
         mediatheques = Mediatheque.objects.get(user=request.user)
         animations = Animation.objects.filter(users_id=request.user)
         return render(request,
-                      'mediatheque/list_animation.html',{'mediatheques': mediatheques, 'animations': animations})
+                      'mediatheque/list_animation.html', {'mediatheques': mediatheques, 'animations': animations})
