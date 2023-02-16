@@ -2,7 +2,6 @@ from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.admin import User
-
 from mediatheque.models import Animation, Reservation, Mediatheque
 from website.forms import EditProfileForm, PasswordChangingForm
 
@@ -42,7 +41,7 @@ def password_change(request):
     })
 
 
-#fonction qui modifie les données d'un utilisateur
+# Fonction qui modifie les données d'un utilisateur
 def editProfile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
@@ -60,7 +59,7 @@ def editProfile(request):
         return render(request, 'website/account_change.html', args)
 
 
-#Fonction qui supprime un utilisateur
+# Fonction qui supprime un utilisateur
 def deleteProfile(request):
     if request.method == 'POST':
         user = request.user

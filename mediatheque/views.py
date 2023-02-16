@@ -94,27 +94,27 @@ def get_inscription(request, id):
 
 # Fonction qui permet de confirmer l'inscription d'un utilisateur à une animation de notre médiathèque
 def confirm_inscription(request):
+    # On récupère l'utilisateur
+    id_user = request.POST.get('user_id')
     # On récupère l'animation et l'utilisateur
-    id = request.POST.get('animation_id')
-    animation = Animation.objects.get(id=id)
-    user = User.objects.get(id=request.POST.get('user_id'))
+    animation = Animation.objects.get(id=request.POST.get('anim_id'))
     # On récupère la réservation de l'utilisateur pour l'animation
-    reservation = Reservation.objects.get(animation_id=animation, user_id=user)
+    reservation = Reservation.objects.get(animation_id=animation, user_id=id_user)
     # On vérifie que la variable Validated n'est pas déjà a True
     if not reservation.Validated:
         # On change la valeur de la variable validated
         reservation.Validated = True
         # On sauvegarde la réservation
         reservation.save()
-    return redirect('get_inscription', id=id)
+    return redirect('get_inscription', id=animation.id)
 
 
 # Fonction qui permet de supprimer l'inscription d'un utilisateur à une animation de notre médiathèque
 def delete_inscription(request):
     # On récupère l'animation et l'utilisateur
-    id = request.POST.get('animation_id_supp')
-    animation = Animation.objects.get(id=id)
-    user = User.objects.get(id=request.POST.get('user_id_supp'))
+    animation = Animation.objects.get(id=request.POST.get('animation_id_supp'))
+    # On récupère l'utilisateur
+    user = request.POST.get('user_id_supp')
     # On récupère la réservation de l'utilisateur pour l'animation
     reservation = Reservation.objects.get(animation_id=animation, user_id=user)
     # On vérifie que la variable Validated est déjà à True
@@ -123,7 +123,7 @@ def delete_inscription(request):
         reservation.Validated = False
         # On sauvegarde la réservation
         reservation.save()
-    return redirect('get_inscription', id=id)
+    return redirect('get_inscription', id=animation.id)
 
 # Fonction qui permet de récupérer les animations de la médiathèque de l'utilisateur
 def print_animation(request):
