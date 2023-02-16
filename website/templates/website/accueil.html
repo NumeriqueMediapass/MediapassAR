@@ -10,16 +10,16 @@
             {% for atelier in animations %}
                 <li>
                     <p><label> Nom de l'atelier : {{ atelier.name }}</label></p>
+                    <p><label>Id de l'atelier : {{ atelier.id }}</label></p>
                     <p><label> Description : {{ atelier.description }}</label></p>
                     <p><label>Date : {{ atelier.date }}</label></p>
                     <p><label>Heure de début : {{ atelier.hour }}</label></p>
                     <p><label>Heure de fin : {{ atelier.hour_end }}</label></p>
                     <img src="{{ atelier.image.url }}" alt="Atelier image">
                 {% if user.is_authenticated %}
-                    <!-- Si l'utilisateur connecté est déjà dans la table Reservation on affiche un bouton pour
-                    se désinscre -->
-
-                    {% if user.id in reservation %}
+                    <!-- Si l'utilisateur connecté est déjà dans la table Reservation et qu'il est déjà
+                     inscrit a cette atelier on lui indique-->
+                    {% if user.id %}
                         <form method="POST">
                         {% csrf_token %}
                             Déjà inscrit

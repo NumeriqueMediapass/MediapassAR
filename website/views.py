@@ -13,16 +13,12 @@ from website.forms import EditProfileForm, PasswordChangingForm
 def acceuil(request):
     # On récupère toutes les animations
     animations = Animation.objects.all()
-    # On récupère toutes les réservations
+    # On récupère tout les id des animations dans reservations
     reservations = Reservation.objects.all()
-    # On transforme les réservations en liste d'id d'utilisateur
-    reservation = []
-    for res in reservations:
-        reservation.append(res.user.id)
-    print('reservations : ', reservation)
+    print(reservations)
     # On récupère l'utilisateur
     user = request.user
-    return render(request, 'website/accueil.html', {'animations': animations, 'reservation': reservation
+    return render(request, 'website/accueil.html', {'animations': animations, 'reservation': reservations
                                                     , 'user': user})
 
 def monCompte(request):
