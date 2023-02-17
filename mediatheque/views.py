@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.decorators import user_passes_test
 from app import settings
 from mediatheque.forms import AnimationForm, AnimationUpdateForm
 from mediatheque.models import Animation, Reservation, Mediatheque
@@ -8,19 +8,18 @@ from mediatheque.models import Animation, Reservation, Mediatheque
 
 # Create your views here.
 
+
+def is_staff_or_superuser(user):
+    return user.is_staff or user.is_superuser
+
+@user_passes_test(is_staff_or_superuser)
 def index(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil du site
-        return redirect('acceuil')
+
     return render(request, 'mediatheque/index.html', {})
 
+@user_passes_test(is_staff_or_superuser)
 def print_atelier(request):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
-    else:
         # On regarde si l'utilisateur est un admin
         if request.user.is_superuser:
             # On récupère toutes les animations
@@ -31,12 +30,8 @@ def print_atelier(request):
             # On récupère les animations de la médiathèque de l'utilisateur
             animations = Animation.objects.filter(mediatheque__user=request.user)
             return render(request, 'mediatheque/atelier.html', {'animations': animations})
-
+@user_passes_test(is_staff_or_superuser)
 def add_atelier(request):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
     if request.method == 'POST':
         form = AnimationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -48,12 +43,8 @@ def add_atelier(request):
         form = AnimationForm()
     return render(request, 'mediatheque/add_atelier.html', {'form': form})
 
-
+@user_passes_test(is_staff_or_superuser)
 def delete_atelier(request):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
     if request.method == 'POST':
         # On récupère les id des utilisateurs à supprimer dans les checkbox cochées
         id_animations = request.POST.getlist('atelier')
@@ -61,12 +52,8 @@ def delete_atelier(request):
             Animation.objects.get(id=id_animation).delete()
         return redirect('print_atelier')
 
-
+@user_passes_test(is_staff_or_superuser)
 def edit_atelier(request, id):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
     animation = Animation.objects.get(id=id)
     if request.method == 'POST':
         form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
@@ -79,12 +66,8 @@ def edit_atelier(request, id):
 
 
 # Fonction qui permet de récupérer les reservations d'un utilisateur
+@user_passes_test(is_staff_or_superuser)
 def get_inscription(request, id):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
-    else:
         # On récupère l'atelier
         animation = Animation.objects.get(id=id)
         # On récupère les réservations de l'animation
@@ -135,12 +118,8 @@ def delete_inscription(request):
     return redirect('get_inscription', id=animation.id)
 
 # Fonction qui permet de récupérer les animations de la médiathèque de l'utilisateur
+@user_passes_test(is_staff_or_superuser)
 def print_animation(request):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
-    else:
         # On récupère les animations de la médiathèque de l'utilisateur
         mediatheques = Mediatheque.objects.get(user=request.user)
         animations = Animation.objects.filter(users_id=request.user)
