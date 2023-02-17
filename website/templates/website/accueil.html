@@ -1,42 +1,28 @@
-{%extends 'base.html'%}
-{%block title %}Accueil{% endblock %}
-    {% block content%}
-        <h1>Nouveautée ! </h1>
+{% extends 'base.html' %}
+{% block title %}Accueil{% endblock %}
 
-        <!-- On affiche les 5 derniers ateliers créer-->
-        <h2>Les 5 derniers ateliers</h2>
+{% block content %}
 
-        <ul>
-            {% for atelier in animations %}
-                <li>
-                    <p><label> Nom de l'atelier : {{ atelier.name }}</label></p>
-                    <p><label>Id de l'atelier : {{ atelier.id }}</label></p>
-                    <p><label> Description : {{ atelier.description }}</label></p>
-                    <p><label>Date : {{ atelier.date }}</label></p>
-                    <p><label>Heure de début : {{ atelier.hour }}</label></p>
-                    <p><label>Heure de fin : {{ atelier.hour_end }}</label></p>
-                    <img src="{{ atelier.image.url }}" alt="Atelier image">
-                {% if user.is_authenticated %}
-                    <!-- Si l'utilisateur connecté est déjà dans la table Reservation et qu'il est déjà
-                     inscrit a cette atelier on lui indique-->
-                    {% if user.id %}
-                        <form method="POST">
-                        {% csrf_token %}
-                            Déjà inscrit
-                        </form>
-                    {% else %}
-                        <form method="POST">
-                        {% csrf_token %}
-                            <input type="hidden" name="atelier" value="{{ atelier.id }}">
-                            <input type="hidden" name="mediatheque" value="{{ atelier.users.mediatheque.id }}">
-                            <input type="hidden" name="user" value="{{ user.id }}">
-                            <input type="submit" value="S'inscrire dans l'atelier" formaction="{% url "inscription" %}">
-                            <label>Nombre de personne : </label><input type="number" name="nb_person" value="1" min="1"
-                                                                   max="{{ atelier.nb_place }}">
-                        </form>
-                    {% endif %}
-                {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endblock %}
+    {% if animations.count == 0  %}
+        <h1>Il n'y a pas d'atelier pour le moment</h1>
+    {% else %}
+    <h1>Nouveautés !</h1>
+
+    <h2>Les 5 derniers ateliers</h2>
+    <form method="POST">
+    {% csrf_token %}
+    <ul>
+        {% for atelier in animations %}
+            <li>
+                <p><label>Nom de l'atelier : {{ atelier.name }}</label></p>
+                <p><label>Description : {{ atelier.description }}</label></p>
+                <p><label>Date : {{ atelier.date }}</label></p>
+                <img src="{{ atelier.image.url }}" alt="Atelier image">
+                <input type="submit" name="submit" value="S'inscrire"
+                       formaction="{% url "print_animations" id_anim=atelier.id %}">
+            </li>
+        {% endfor %}
+    </ul>
+    </form>
+    {% endif %}
+{% endblock %}
