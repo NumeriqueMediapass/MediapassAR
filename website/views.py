@@ -70,12 +70,19 @@ def deleteProfile(request):
  
         return render(request, 'website/delete_account.html')
 
+
+
+def print_animations(request , id_anim):
+    # On récupère l'animation
+    animation = Animation.objects.get(id=id_anim)
+    return render(request, 'website/inscriptionAtelier.html', {'animation': animation})
+
 # Fonction qui inscrit un utilisateur a une animation
 def inscription(request):
     # On récupère l'utilisateur connecté
     user = request.user
     # On récupère l'animation
-    animation = request.POST.get('atelier')
+    animation = request.POST.get('animation')
     # On récupère la médiathèque
     mediatheque = request.POST.get('mediatheque')
     tmp = Mediatheque.objects.get(id=mediatheque)
@@ -86,7 +93,7 @@ def inscription(request):
         messages.error(request, "Vous êtes déjà inscrit à cette animation")
         return redirect('acceuil')
     # On inscrit l'utilisateur à l'animation
-    reservation = Reservation(user=user, animation=Animation.objects.get(id=animation),
+    reservation = Reservation(user=user, animation_id=animation,
                               mediatheque=tmp, nb_person=nb_person)
     reservation.save()
     # On envoie un mail a la médiathèque pour prévenir qu'un utilisateur s'est inscrit

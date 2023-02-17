@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{animation.name}}{% endblock %}
+
+{% block content %}
+    <h1>{{ animation.name }}</h1>
+    <p>Description : {{ animation.description }}</p>
+    <p>Date : {{ animation.date }}</p>
+    <p>Heure de début : {{ animation.hour }}</p>
+    <p>Heure de fin : {{ animation.hour_end }}</p>
+    <p>Age minimum : {{ animation.age }}</p>
+    <p>Age maximum : {{ animation.age_end }}</p>
+    <img src="{{ animation.image.url }}" alt="Atelier image">
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="animation" value="{{ animation.id }}">
+        Nombre de personne : <input type="number" name="nb_person" value="1" min="1">
+        <input type="hidden" name="mediatheque" value="{{ animation.users.mediatheque.id }}">
+        <button type="submit" class="btn btn-primary" formaction="{% url "inscription" %}">S'inscrire</button>
+    </form>
+{% endblock %}
