@@ -11,6 +11,9 @@
     <p>Age minimum : {{ animation.age }}</p>
     <p>Age maximum : {{ animation.age_end }}</p>
     <img src="{{ animation.image.url }}" alt="Atelier image">
+    {% if reservations %}
+        <h2>Déjà inscrit</h2>
+    {% else %}
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="animation" value="{{ animation.id }}">
@@ -18,4 +21,5 @@
         <input type="hidden" name="mediatheque" value="{{ animation.users.mediatheque.id }}">
         <button type="submit" class="btn btn-primary" formaction="{% url "inscription" %}">S'inscrire</button>
     </form>
+    {% endif %}
 {% endblock %}

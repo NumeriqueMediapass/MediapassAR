@@ -75,7 +75,10 @@ def deleteProfile(request):
 def print_animations(request , id_anim):
     # On récupère l'animation
     animation = Animation.objects.get(id=id_anim)
-    return render(request, 'website/inscriptionAtelier.html', {'animation': animation})
+    # On récupère les réservations pour l'utilisateur connecté
+    reservations = Reservation.objects.filter(user=request.user, animation_id=id_anim)
+    print(reservations)
+    return render(request, 'website/inscriptionAtelier.html', {'animation': animation, 'reservations': reservations})
 
 # Fonction qui inscrit un utilisateur a une animation
 def inscription(request):
