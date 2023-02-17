@@ -3,9 +3,12 @@
 {% block content %}
 
     <h1>{{ user.mediatheque.name }}</h1>
+    {% if animations.count == 0  %}
+        <p>Il n'y a pas d'animation pour le moment</p>
+    {% else %}
     {% for animation in animations %}
         <br>
         <p><a href="{%url "get_inscription" id=animation.id%}">{{ animation.name }}</a></p>
     {% endfor %}
-
+{% endif %}
 {% endblock %}

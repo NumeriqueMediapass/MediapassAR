@@ -2,11 +2,14 @@
 {% block title %}Liste des médiathèque {% endblock %}
 
 {% block content %}
+    {% if mediatheques.count == 0  %}
+        <h1>Auccune médiathèque n'a été créée</h1>
+    {% else %}
     <h1>Liste des médiathèque</h1>
     <form method="POST">
     {% csrf_token %}
     <ul>
-        {% for mediatheque in mediatheques %}
+            {% for mediatheque in mediatheques %}
             <li>
                 <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
                 {{ mediatheque.name }}
@@ -18,5 +21,7 @@
     </ul>
     <button type="submit" formmethod="POST" formaction="{% url "delete_mediatheque" %}">Supprimer</button>
     </form>
+
+{% endif %}
 
 {% endblock %}

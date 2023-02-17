@@ -62,12 +62,12 @@ def delete_atelier(request):
         return redirect('print_atelier')
 
 
-def edit_atelier(request, id_animation):
+def edit_atelier(request, id):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
-    animation = Animation.objects.get(id=id_animation)
+    animation = Animation.objects.get(id=id)
     if request.method == 'POST':
         form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
         if form.is_valid():

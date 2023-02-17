@@ -3,24 +3,25 @@ from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.admin import User
-
 from app import settings
 from mediatheque.models import Animation, Reservation, Mediatheque
 from website.forms import EditProfileForm, PasswordChangingForm
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 
+@login_required
 def acceuil(request):
     # On récupère toutes les animations
     animations = Animation.objects.all()
-    # On récupère tout les id des animations dans reservations
-    reservations = Reservation.objects.all()
-    print(reservations)
-    # On récupère l'utilisateur
-    user = request.user
-    return render(request, 'website/accueil.html', {'animations': animations, 'reservation': reservations
-                                                    , 'user': user})
-
+    # On récupère les réservations pour l'utilisateur connecté
+    reservations = Reservation.objects.filter(user=request.user, Validated=True)
+    # On récupère les IDs des animations pour lesquelles l'utilisateur est déjà inscrit
+    animation_ids = [reservation.animation.id for reservation in reservations]
+    # On filtre les animations pour exclure celles pour lesquelles l'utilisateur est déjà inscrit
+    animations = animations.exclude(id__in=animation_ids)
+    return render(request, 'website/accueil.html', {'animations': animations})
 def monCompte(request):
     return render(request, 'website/monCompte.html')
 
