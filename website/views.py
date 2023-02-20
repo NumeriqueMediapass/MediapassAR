@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.core.mail import send_mail
 from pyexpat.errors import messages
@@ -23,16 +23,18 @@ def acceuil(request):
     # On filtre les animations pour exclure celles pour lesquelles l'utilisateur est déjà inscrit
     animations = animations.exclude(id__in=animation_ids)
     animations = animations.order_by('date')
+    res = []
     for animation in animations:
-        if animation.date < date.today():
-            animations = animations.exclude(id=animation.id)
-        animations[:5]
-    return render(request, 'website/accueil.html', {'animations': animations})
+        if date.today() < animation.date < date.today() + timedelta(days=7):
+            res.append(animation)
+        res[:5]
+    return render(request, 'website/accueil.html', {'animations': res})
 
 # Fonction qui affiche toute les animations
 def animations(request):
     # On récupère toutes les animations
     animations = Animation.objects.all()
+    animations = animations.order_by('date')
     animation = []
     for tmp in animations:
         if(tmp.date > date.today()):
