@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}Accueil{% endblock %}
+{% block title %} Ateliers {% endblock %}
 
 {% block content %}
+<h1>Listes de tous les ateliers</h1>
 
-    {% if animations.count == 0  %}
-        <h1>Il n'y a pas d'atelier pour le moment</h1>
-    {% else %}
-    <h1>Nouveautés !</h1>
-
-    <h2>Les 5 derniers ateliers</h2>
     <form method="POST">
     {% csrf_token %}
     <ul>
-        {% for atelier in animations %}
+        {% for atelier in animation %}
             <li>
                 <p><label>Nom de l'atelier : {{ atelier.name }}</label></p>
                 <p><label>Nom de la mediathèque : {{ atelier.users.mediatheque.name }}</label></p>
@@ -24,7 +19,5 @@
             </li>
         {% endfor %}
     </ul>
-    <input type="submit" name="submit" value="Afficher plus d'atelier" formaction="{% url "animations" %}">
     </form>
-    {% endif %}
 {% endblock %}

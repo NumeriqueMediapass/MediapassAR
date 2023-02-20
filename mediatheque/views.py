@@ -28,7 +28,7 @@ def print_atelier(request):
         # On regarde si l'utilisateur est un staff
         elif request.user.is_staff:
             # On récupère les animations de la médiathèque de l'utilisateur
-            animations = Animation.objects.filter(mediatheque__user=request.user)
+            animations = Animation.objects.filter(users_id=request.user)
             return render(request, 'mediatheque/atelier.html', {'animations': animations})
 @user_passes_test(is_staff_or_superuser)
 def add_atelier(request):

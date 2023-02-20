@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.core.mail import send_mail
 from pyexpat.errors import messages
 from django.shortcuts import redirect, render
@@ -7,7 +9,6 @@ from app import settings
 from mediatheque.models import Animation, Reservation, Mediatheque
 from website.forms import EditProfileForm, PasswordChangingForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 
 # Create your views here.
 
@@ -21,7 +22,23 @@ def acceuil(request):
     animation_ids = [reservation.animation.id for reservation in reservations]
     # On filtre les animations pour exclure celles pour lesquelles l'utilisateur est déjà inscrit
     animations = animations.exclude(id__in=animation_ids)
+    animations = animations.order_by('date')
+    for animation in animations:
+        if animation.date < date.today():
+            animations = animations.exclude(id=animation.id)
+        animations[:5]
     return render(request, 'website/accueil.html', {'animations': animations})
+
+# Fonction qui affiche toute les animations
+def animations(request):
+    # On récupère toutes les animations
+    animations = Animation.objects.all()
+    animation = []
+    for tmp in animations:
+        if(tmp.date > date.today()):
+            animation.append(tmp)
+    return render(request, 'website/animations.html', {'animation': animation})
+
 def monCompte(request):
     return render(request, 'website/monCompte.html')
 

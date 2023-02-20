@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import acceuil, monCompte, password_change, editProfile, deleteProfile , inscription, \
-    mesReservations, animation, deleteReservation , print_animations
+    mesReservations, animation, deleteReservation , print_animations, animations
 
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path('animation/<int:id>', animation, name='animation'),
     path('deleteReservation/<int:id>', deleteReservation, name='deleteReservation'),
     path('print_animations/<int:id_anim>', print_animations, name='print_animations'),
+    path('animations/', animations, name='animations'),
 ]
