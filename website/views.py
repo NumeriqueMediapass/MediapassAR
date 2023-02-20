@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.admin import User
 from app import settings
 from mediatheque.models import Animation, Reservation, Mediatheque
-from website.forms import EditProfileForm, PasswordChangingForm
+from website.forms import EditProfileForm, PasswordChangingForm, CalendarWidget
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -24,11 +24,12 @@ def acceuil(request):
     animations = animations.exclude(id__in=animation_ids)
     animations = animations.order_by('date')
     res = []
+    form = CalendarWidget()
     for animation in animations:
         if date.today() < animation.date < date.today() + timedelta(days=7):
             res.append(animation)
         res[:5]
-    return render(request, 'website/accueil.html', {'animations': res})
+    return render(request, 'website/accueil.html', {'animations': res, 'form': form})
 
 # Fonction qui affiche toute les animations
 def animations(request):
@@ -37,7 +38,7 @@ def animations(request):
     animations = animations.order_by('date')
     animation = []
     for tmp in animations:
-        if(tmp.date > date.today()):
+        if tmp.date > date.today():
             animation.append(tmp)
     return render(request, 'website/animations.html', {'animation': animation})
 

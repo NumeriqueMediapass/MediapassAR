@@ -33,3 +33,12 @@ class InscriptionForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ('user', 'animation')
+
+# Class pour générer un calendrier
+class CalendarWidget(forms.DateInput):
+    template_name = 'widgets/calendar.html'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['attrs']['class'] = 'form-control'
+        return context
