@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Liste des ateliers de votre médiathèque ! {% endblock %}
 {% block content %}
+    <div class="content_center">
 
     {% if animations.count == 0  %}
     <h1>Vous n'avez pas encore créer d'atelier ! </h1>
@@ -10,14 +11,14 @@
 
         <form method="POST">
         {% csrf_token %}
-        <ul>
         <a href="{%url "edit_atelier" id=atelier.id%}">
                 <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
             </a>
         <input type="checkbox" name="atelier" value="{{ atelier.id }}">Supprimer l'atelier
-        </ul>
         {% endfor %}
+        <br>
         <button type="submit" formmethod="POST" formaction="{% url "delete_atelier" %}">Supprimer</button>
     </form>
     {% endif %}
+    </div>
 {% endblock %}

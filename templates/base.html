@@ -15,6 +15,7 @@
     {% if user.is_authenticated %}
     <h1>Bonjour {{ user.username }}</h1>
         <nav class="navbar navbar-light" style="background: #92fdff;">
+        <a class="navbar-brand" href="{% url 'acceuil' %}">Retour à l'acceuil</a>
     <a class="navbar-brand" href="{% url 'monCompte' %}">Acceder a mon compte</a>
     <a class="navbar-brand" href="{% url 'logout' %}">Se déconnecter</a>
 {% else %}
@@ -27,6 +28,7 @@
     {% if user.is_staff or user.is_superuser %}
     <a class="navbar-brand" href="{% url 'index_mediatheque' %}">Acceder au panel médiathèque</a>
     {% endif %}
+
     </nav>
     {% block content %}
 

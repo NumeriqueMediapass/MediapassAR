@@ -2,22 +2,25 @@
 {% block title %} Ateliers {% endblock %}
 
 {% block content %}
+
+    <div class="content_center">
 <h1>Listes de tous les ateliers</h1>
 
     <form method="POST">
     {% csrf_token %}
-    <ul>
         {% for atelier in animation %}
-            <li>
-                <p><label>Nom de l'atelier : {{ atelier.name }}</label></p>
-                <p><label>Nom de la mediathèque : {{ atelier.users.mediatheque.name }}</label></p>
-                <p><label>Description : {{ atelier.description }}</label></p>
-                <p><label>Date : {{ atelier.date }}</label></p>
+            <div class="card" style="width: 25%">
                 <img src="{{ atelier.image.url }}" alt="Atelier image">
-                <input type="submit" name="submit" value="S'inscrire"
+                <div class="card-body">
+                    <h5 class="card-title">{{ atelier.name }}</h5>
+                    <p><label>Nom de la mediathèque : {{ atelier.users.mediatheque.name }}</label></p>
+                    <p><label>Description : {{ atelier.description }}</label></p>
+                    <p><label>Date : {{ atelier.date }}</label></p>
+                    <input class="btn btn-primary" type="submit" name="submit" value="S'inscrire"
                        formaction="{% url "print_animations" id_anim=atelier.id %}">
-            </li>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
     </form>
 {% endblock %}
