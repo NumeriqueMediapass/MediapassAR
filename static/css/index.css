@@ -1,11 +1,8 @@
 body{
-    background-color: #ffffff;
+    background-color: #92fdff;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     color: #333;
-    margin:center;
-    padding: left;
-    
 }
 
 div.form-group{
@@ -16,6 +13,12 @@ div.form-group{
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+div.content_center{
+    margin: auto;
+    margin-top: 15px;
+    margin-left : 40%;
 }
 
 div.center{

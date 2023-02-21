@@ -92,7 +92,7 @@ def deleteProfile(request):
 
 
 
-def print_animations(request , id_anim):
+def print_animations(request, id_anim):
     # On récupère l'animation
     animation = Animation.objects.get(id=id_anim)
     # On récupère les réservations pour l'utilisateur connecté

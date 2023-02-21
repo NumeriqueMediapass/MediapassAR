@@ -19,10 +19,10 @@ class Animation(models.Model):
     date = models.DateField()
     hour = models.TimeField()
     hour_end = models.TimeField()
-    age = models.IntegerField()
+    age = models.PositiveIntegerField()
     age_end = models.PositiveIntegerField()
     image = models.ImageField(upload_to='images/')
-    nb_places = models.IntegerField()
+    nb_places = models.PositiveIntegerField()
     users = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

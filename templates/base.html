@@ -5,37 +5,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css">
     <title>{%block title%}base{%endblock%}</title>
 </head>
 <body>
+
     {% if user.is_authenticated %}
     <h1>Bonjour {{ user.username }}</h1>
-    <a href="{% url 'monCompte' %}">Acceder a mon compte</a>
-    <a href="{% url 'logout' %}">Se déconnecter</a>
+        <nav class="navbar navbar-light" style="background: #92fdff;">
+    <a class="navbar-brand" href="{% url 'monCompte' %}">Acceder a mon compte</a>
+    <a class="navbar-brand" href="{% url 'logout' %}">Se déconnecter</a>
 {% else %}
-    <a href="{% url 'login' %}">Se connecter</a>
+    <a class="navbar-brand" href="{% url 'login' %}">Se connecter</a>
 {% endif %}
     <!--Si l'utilisateur est un staff on affiche le lien pour aller dans les pages admin-->
     {% if user.is_superuser %}
-    <a href="{% url 'index_admin' %}">Acceder au panel admin</a>
+    <a class="navbar-brand" href="{% url 'index_admin' %}">Acceder au panel admin</a>
     {% endif %}
     {% if user.is_staff or user.is_superuser %}
-    <a href="{% url 'index_mediatheque' %}">Acceder au panel médiathèque</a>
+    <a class="navbar-brand" href="{% url 'index_mediatheque' %}">Acceder au panel médiathèque</a>
     {% endif %}
-
+    </nav>
     {% block content %}
-    <h1>
-        {% block h1%}{% endblock %}
-    </h1>
-    
-    <div>
-        {% block div%}{% endblock %}
-    </div>
-
-    <p>
-        {% block p%}{% endblock %}
-    </p>
 
     {% endblock %}
 </body>
