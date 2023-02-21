@@ -1,7 +1,5 @@
-from audioop import reverse
 
 from django.contrib import messages
-from django.urls import reverse
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import redirect
@@ -10,8 +8,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 import logging
-from django.contrib.auth.tokens import default_token_generator
-from .models import Token
+
 # Create your views here.
 
 # Fonction pour s'enregistrer sur le site
@@ -70,9 +67,3 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('/login/')
-        
-# Fonction qui permet d'accéder à la page d'accueil
-def acceuil(request):
-    if not request.user.is_active:
-        return redirect('login')
-    return render(request, 'connexion/accueil.html')

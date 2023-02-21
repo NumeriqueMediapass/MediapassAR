@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Accueil{% endblock %}
-
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
 {% block content %}
     <div class="content_center">
     {% if animations.count == 0  %}
@@ -28,4 +34,5 @@
     </form>
     {% endif %}
     </div>
+    <div id="calendar"></div>
 {% endblock %}
