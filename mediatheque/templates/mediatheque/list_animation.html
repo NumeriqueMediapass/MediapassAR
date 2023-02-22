@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
-
+{% block title %}Liste des animations{% endblock %}
 {% block content %}
+        <nav class="navbar navbar-light" style="background: #46ff83">
+    <a class="navbar-brand" href="{% url 'print_atelier' %}" class="btn btn-link">Afficher les ateliers de votre médiathèque</a>
+
+
+    <p><a class="navbar-brand" href="add_atelier.html">Ajout d'un atelier</a></p>
+
+    </nav>
     <div class="content_center">
     <h1>{{ user.mediatheque.name }}</h1>
     {% if animations.count == 0  %}

@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Liste des ateliers de votre médiathèque ! {% endblock %}
 {% block content %}
+        <nav class="navbar navbar-light" style="background: #46ff83">
+    <p><a class="navbar-brand" href="add_atelier.html">Ajout d'un atelier</a></p>
+
+    <p><a class="navbar-brand" href="{% url 'print_animation' %}">Afficher les ateliers pour valider les inscriptions</a></p>
+    </nav>
     <div class="content_center">
 
     {% if animations.count == 0  %}

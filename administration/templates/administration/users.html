@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} Utilisateur {% endblock %}
 {% block content %}
+        <nav class="navbar navbar-light" style="background: #92fdff">
+    <!-- On affiche les liens des autres-->
+    <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
+    <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
+    <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+    </nav>
+    <div class="content_center">
     <h1>Utilisateur</h1>
     <p>Voici la liste des utilisateurs</p>
     <form method="POST">
@@ -20,4 +27,5 @@
     </ul>
     <button type="submit" formmethod="POST" formaction="{% url "delete_users" %}">Supprimer</button>
     </form>
+    </div>
 {% endblock %}

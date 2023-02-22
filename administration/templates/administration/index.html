@@ -2,10 +2,11 @@
 {%block title %}Administration{% endblock %}
 
 {% block content %}
-
+    <nav class="navbar navbar-light" style="background: #92fdff">
     <!-- On affiche les liens des autres-->
-    <p><a href="{% url 'print_users' %}">Utilisateurs</a></p>
-    <p><a href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
-    <p><a href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
-    <p><a href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+    <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
+    <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
+    <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
+    <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+    </nav>
 {% endblock %}
