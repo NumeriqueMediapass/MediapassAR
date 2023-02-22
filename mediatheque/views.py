@@ -14,9 +14,9 @@ def is_staff_or_superuser(user):
 
 @user_passes_test(is_staff_or_superuser)
 def index(request):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-
-    return render(request, 'mediatheque/index.html', {})
+    # On récupère les animations de la médiathèque
+    animations = Animation.objects.filter(users_id=request.user)
+    return render(request, 'mediatheque/index.html', {'animations': animations})
 
 @user_passes_test(is_staff_or_superuser)
 def print_atelier(request):
