@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 def acceuil(request):
     # On récupère toutes les animations
     animations = Animation.objects.all()
+    anim = Animation.objects.all()
     # On récupère les réservations pour l'utilisateur connecté
     reservations = Reservation.objects.filter(user=request.user, Validated=True)
     # On récupère les IDs des animations pour lesquelles l'utilisateur est déjà inscrit
@@ -29,7 +30,7 @@ def acceuil(request):
         if date.today() < animation.date < date.today() + timedelta(days=7):
             res.append(animation)
         res[:5]
-    return render(request, 'website/accueil.html', {'animations': res, 'form': form})
+    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim})
 
 # Fonction qui affiche toute les animations
 def animations(request):

@@ -1,7 +1,6 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
-{% block head %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,30 +10,11 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css">
     <title>{%block title%}base{%endblock%}</title>
 
+{% block head %}
 
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-            locale: 'fr',
-            //On affiche les animations dans le calendrier
-            eventContent: [
-                {% for animation in animations %}
-                {
-                    title: '{{ animation.name }}',
-                    start: '{{ animation.date }}',
-                    end: '{{ animation.date }}',
-                },
-                {% endfor %}
-            ]
-        });
-        calendar.render();
-      });
-    </script>
-</head>
 {% endblock %}
+
+</head>
 <body>
 
     {% if user.is_authenticated %}
