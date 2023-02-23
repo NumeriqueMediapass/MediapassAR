@@ -146,6 +146,39 @@ EMAIL_USE_TLS = True
 
 PASSWORD_RESET_TIMEOUT = 14400
 
+# Confirguration des logs pour afficher les actions des utilisateurs
+
+# LOGGING = {
+#
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+#             'style': '{',
+#         },
+#         'simple': {
+#             'format': '{levelname} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': 'debug.log',
+#             'formatter': 'verbose'
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }
+
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_HOST = 'localhost'
