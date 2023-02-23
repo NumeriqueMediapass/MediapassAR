@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="center">
+<div class="text-center">
     <h2>Connexion</h2>
 </div>
     <form method="post" action="{% url 'login' %}">
-        <div class="center">
+        <div class="text-center">
         {% csrf_token %}
         {{ form.as_p }}
         <br>
@@ -22,7 +22,7 @@
         </div>
     </form>
     <br>
-    <div class="center">
+    <div class="text-center">
     <a href="{% url 'signup' %}">Pas encore inscrit ?</a>
     <br>
     </div>
