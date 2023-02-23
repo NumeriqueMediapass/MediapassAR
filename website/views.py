@@ -52,7 +52,7 @@ def password_change(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            
+
             return redirect('monCompte')
 
     else:
@@ -88,7 +88,7 @@ def deleteProfile(request):
             user.delete()
             return redirect('acceuil')
     else:
- 
+
         return render(request, 'website/delete_account.html')
 
 

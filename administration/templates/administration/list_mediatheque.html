@@ -3,33 +3,33 @@
 
 {% block content %}
 
-        <nav class="navbar navbar-light" style="background: #92fdff">
-    <!-- On affiche les liens des autres-->
-    <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
-    <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
-    <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+    <nav class="navbar navbar-light">
+        <!-- On affiche les liens des autres-->
+        <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
+        <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
+        <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
     </nav>
-<div class="content_center">
-    {% if mediatheques.count == 0  %}
-        <h1>Auccune médiathèque n'a été créée</h1>
-    {% else %}
-    <h1>Liste des médiathèque</h1>
-    <form method="POST">
-    {% csrf_token %}
-    <ul>
-            {% for mediatheque in mediatheques %}
-            <li>
-                <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
-                {{ mediatheque.name }}
-                </a>
-            </li>
-            <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">Supprimer
-        {% endfor %}
+    <div class="content_center">
+        {% if mediatheques.count == 0  %}
+            <h1>Auccune médiathèque n'a été créée</h1>
+        {% else %}
+            <h1>Liste des médiathèque</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <ul>
+                    {% for mediatheque in mediatheques %}
+                        <li>
+                            <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
+                                {{ mediatheque.name }}
+                            </a>
+                        </li>
+                        <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">Supprimer
+                    {% endfor %}
 
-    </ul>
-    <button type="submit" formmethod="POST" formaction="{% url "delete_mediatheque" %}">Supprimer</button>
-    </form>
+                </ul>
+                <button type="submit" formmethod="POST" formaction="{% url "delete_mediatheque" %}">Supprimer</button>
+            </form>
 
-{% endif %}
-</div>
+        {% endif %}
+    </div>
 {% endblock %}

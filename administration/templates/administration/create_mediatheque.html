@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Ajouter une mediathèque{% endblock %}
 {% block content %}
-        <nav class="navbar navbar-light" style="background: #92fdff">
-    <!-- On affiche les liens des autres-->
-    <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
-    <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
-    <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
+    <nav class="navbar navbar-light">
+        <!-- On affiche les liens des autres-->
+        <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
+        <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
+        <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
     </nav>
     <h1>Ajouter une mediathèque</h1>
     <form method="POST">

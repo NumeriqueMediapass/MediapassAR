@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% block title %} Ajouter un utilisateur {% endblock %}
 {% block content %}
-        <nav class="navbar navbar-light" style="background: #92fdff">
-    <!-- On affiche les liens des autres-->
-    <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
-    <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
-    <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+    <nav class="navbar navbar-light">
+        <!-- On affiche les liens des autres-->
+        <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
+        <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
+        <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
     </nav>
 
     <form method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-        {{ form.as_p }}
-    </div>
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
 
-    <input type="submit" value="Ajouter" />
+        <input type="submit" value="Ajouter" />
     </form>
 {% endblock %}

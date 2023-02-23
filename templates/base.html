@@ -5,42 +5,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"#}
-{#      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
+    {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"#}
+    {#      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
     <title>{%block title%}base{%endblock%}</title>
 
-{% block head %}
+    {% block head %}
 
-{% endblock %}
+    {% endblock %}
 
 </head>
 <body>
 
-    {% if user.is_authenticated %}
+{% if user.is_authenticated %}
     <h1>Bonjour {{ user.username }}</h1>
-        <nav class="navbar navbar-light">
-        <a class="navbar-brand" href="{% url 'acceuil' %}">Retour à l'accueil</a>
+    <nav class="navbar navbar-light">
+    <a class="navbar-brand" href="{% url 'acceuil' %}">Retour à l'accueil</a>
     <a class="navbar-brand" href="{% url 'monCompte' %}">Acceder a mon compte</a>
     <a class="navbar-brand" href="{% url 'logout' %}">Se déconnecter</a>
 {% else %}
     <a class="navbar-brand" href="{% url 'login' %}">Se connecter</a>
 {% endif %}
-    <!--Si l'utilisateur est un staff on affiche le lien pour aller dans les pages admin-->
-    {% if user.is_superuser %}
+<!--Si l'utilisateur est un staff on affiche le lien pour aller dans les pages admin-->
+{% if user.is_superuser %}
     <a class="navbar-brand" href="{% url 'index_admin' %}">Acceder au panel admin</a>
-    {% endif %}
-    {% if user.is_staff or user.is_superuser %}
+{% endif %}
+{% if user.is_staff or user.is_superuser %}
     <a class="navbar-brand" href="{% url 'index_mediatheque' %}">Acceder au panel médiathèque</a>
-    {% endif %}
+{% endif %}
 
-    </nav>
+</nav>
 
-    <div class="container">
+<div class="container">
 
     {% block content %}
 
     {% endblock %}
-    </div>
+</div>
 </body>
 </html>

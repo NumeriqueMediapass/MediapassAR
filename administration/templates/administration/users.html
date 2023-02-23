@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
 {% block title %} Utilisateur {% endblock %}
 {% block content %}
-        <nav class="navbar navbar-light" style="background: #92fdff">
-    <!-- On affiche les liens des autres-->
-    <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
-    <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
-    <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+    <nav class="navbar navbar-light">
+        <!-- On affiche les liens des autres-->
+        <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
+        <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
+        <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
     </nav>
     <div class="content_center">
-    <h1>Utilisateur</h1>
-    <p>Voici la liste des utilisateurs</p>
-    <form method="POST">
-        {% csrf_token %}
-    <ul>
-        {% for user in users %}
-            <!--Rends les utilisateur cliquables afin d'aller sur la page edit_user-->
-            {% if user.is_superuser%}
-                {% else %}
-            <a href="{%url "edit_user" id=user.id%}">
-                <li>{{ user.username }}</li>
-            </a>
-                <!--Rajoute des checkbox a chaque utilisateur afin de pouvoir les supprimer-->
-                <input type="checkbox" name="users" value="{{ user.id }}">Supprimer l'utilisateur
-            {% endif %}
-        {% endfor %}
-    </ul>
-    <button type="submit" formmethod="POST" formaction="{% url "delete_users" %}">Supprimer</button>
-    </form>
+        <h1>Utilisateur</h1>
+        <p>Voici la liste des utilisateurs</p>
+        <form method="POST">
+            {% csrf_token %}
+            <ul>
+                {% for user in users %}
+                    <!--Rends les utilisateur cliquables afin d'aller sur la page edit_user-->
+                    {% if user.is_superuser%}
+                    {% else %}
+                        <a href="{%url "edit_user" id=user.id%}">
+                            <li>{{ user.username }}</li>
+                        </a>
+                        <!--Rajoute des checkbox a chaque utilisateur afin de pouvoir les supprimer-->
+                        <input type="checkbox" name="users" value="{{ user.id }}">Supprimer l'utilisateur
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <button type="submit" formmethod="POST" formaction="{% url "delete_users" %}">Supprimer</button>
+        </form>
     </div>
 {% endblock %}

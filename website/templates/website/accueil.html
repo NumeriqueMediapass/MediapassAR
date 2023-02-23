@@ -1,60 +1,70 @@
 {% extends 'base.html' %}
 {% block title %}Accueil{% endblock %}
 {% block head %}
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-            locale: 'fr',
-            //On affiche les animations dans le calendrier
-            events: [
-                {% for animation in anim %}
-                {
-                    title: '{{ animation.name }}',
-                    start: '{{animation.date|date:"Y-m-d"}}',
-                    end: '{{animation.date|date:"Y-m-d"}}',
-                    url: '{% url "print_animations" id_anim=animation.id %}'
-                },
-                {% endfor %}
-            ]
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                //On affiche les animations dans le calendrier
+                events: [
+                    {% for animation in anim %}
+                        {
+                            title: '{{ animation.name }}',
+                            start: '{{animation.date|date:"Y-m-d"}}',
+                            end: '{{animation.date|date:"Y-m-d"}}',
+                            url: '{% url "print_animations" id_anim=animation.id %}'
+                        },
+                    {% endfor %}
+                ]
+            });
+            evenement = calendar.getEvents();
+            calendar.render();
         });
-        evenement = calendar.getEvents();
-        calendar.render();
-      });
     </script>
 {% endblock %}
 {% load static %}
 {% block content %}
     <div class="text-center">
-{% if animations.count == 0  %}
-        <h1>Il n'y a pas d'atelier pour le moment</h1>
-    {% else %}
+        {% if animations.count != 1  %}
+            <h1>Nouveautés !</h1>
 
-    <h1>Nouveautés !</h1>
-
-    <h2>Les 5 derniers ateliers</h2>
-</div>
-    <div class="modal-dialog-centered">
-    <form method="POST">
-    {% csrf_token %}
-        {% for atelier in animations %}
-            <div class="card" style="width: 50%">
-                <img src="{{ atelier.image.url }}" alt="Atelier image">
-                <div class="card-body">
-                    <h5 class="card-title">{{ atelier.name }}</h5>
-                    <p><label>Nom de la mediathèque : {{ atelier.users.mediatheque.name }}</label></p>
-                    <p><label>Description : {{ atelier.description }}</label></p>
-                    <p><label>Date : {{ atelier.date }}</label></p>
-                    <input class="btn btn-primary" type="submit" name="submit" value="S'inscrire"
-                       formaction="{% url "print_animations" id_anim=atelier.id %}">
-                </div>
+            <h2>Les 5 derniers ateliers</h2>
             </div>
-        {% endfor %}
-    <input type="submit" name="submit" value="Afficher plus d'atelier" formaction="{% url "animations" %}">
-    </form>
-    {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+
+                    {% for atelier in animations %}
+                        <div class="col-md-6 col-sm-12">
+                            <div class="card" >
+                                <img src="{{ atelier.image.url }}" alt="Atelier image" class="img">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ atelier.name }}</h5>
+                                    <p><label>Nom de la mediathèque : {{ atelier.users.mediatheque.name }}</label></p>
+                                    <p><label>Description : {{ atelier.description }}</label></p>
+                                    <p><label>Date : {{ atelier.date }}</label></p>
+                                    <input class="btn btn-primary" type="submit" name="submit" value="S'inscrire"
+                                           formaction="{% url "print_animations" id_anim=atelier.id %}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <input type="submit" name="submit" value="Afficher plus d'atelier" formaction="{% url "animations" %}">
+                </div>
+
+            </form>
+
+        {% else %}
+            <h1>Il n'y a pas d'atelier pour le moment</h1>
+
+
+        {% endif %}
+
     </div>
     <div id="calendar"></div>
 {% endblock %}
