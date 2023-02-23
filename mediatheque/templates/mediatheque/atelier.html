@@ -1,29 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}Liste des ateliers de votre médiathèque ! {% endblock %}
 {% block content %}
-        <nav class="navbar navbar-light" style="background: #46ff83">
-    <p><a class="navbar-brand" href="add_atelier.html">Ajout d'un atelier</a></p>
+    <nav class="navbar navbar-light">
+        <p><a class="navbar-brand" href="add_atelier.html">Ajout d'un atelier</a></p>
 
-    <p><a class="navbar-brand" href="{% url 'print_animation' %}">Afficher les ateliers pour valider les inscriptions</a></p>
+        <p><a class="navbar-brand" href="{% url 'print_animation' %}">Afficher les ateliers pour valider les inscriptions</a></p>
     </nav>
-    <div class="content_center">
+    <div class="text-center">
 
-    {% if animations.count == 0  %}
-    <h1>Vous n'avez pas encore créer d'atelier ! </h1>
-    {% else %}
-    <h1>Ateliers</h1>
-    {% for atelier in animations %}
 
-        <form method="POST">
-        {% csrf_token %}
-        <a href="{%url "edit_atelier" id=atelier.id%}">
-                <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
-            </a>
-        <input type="checkbox" name="atelier" value="{{ atelier.id }}">Supprimer l'atelier
-        {% endfor %}
-        <br>
-        <button type="submit" formmethod="POST" formaction="{% url "delete_atelier" %}">Supprimer</button>
-    </form>
-    {% endif %}
+        {% if animations.count == 0  %}
+            <h1>Vous n'avez pas encore créer d'atelier ! </h1>
+        {% else %}
+            <h1>Ateliers</h1>
+            {% for atelier in animations %}
+                <form method="POST">
+                {% csrf_token %}
+                <a href="{%url "edit_atelier" id=atelier.id%}">
+                    <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
+                </a>
+                <input type="checkbox" name="atelier" value="{{ atelier.id }}">Supprimer l'atelier
+            {% endfor %}
+            <br>
+            <button type="submit" formmethod="POST" formaction="{% url "delete_atelier" %}">Supprimer</button>
+            </form>
+        {% endif %}
+
     </div>
 {% endblock %}

@@ -1,38 +1,38 @@
 {% extends 'base.html' %}
 {% block title %}Pannel médiathèque {% endblock %}
 {% block head %}
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-            locale: 'fr',
-            //On affiche les animations dans le calendrier
-            events: [
-                {% for animation in animations %}
-                {
-                    title: '{{ animation.name }}',
-                    start: '{{animation.date|date:"Y-m-d"}}',
-                    end: '{{animation.date|date:"Y-m-d"}}',
-                },
-                {% endfor %}
-            ]
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                //On affiche les animations dans le calendrier
+                events: [
+                    {% for animation in animations %}
+                        {
+                            title: '{{ animation.name }}',
+                            start: '{{animation.date|date:"Y-m-d"}}',
+                            end: '{{animation.date|date:"Y-m-d"}}',
+                        },
+                    {% endfor %}
+                ]
+            });
+            evenement = calendar.getEvents();
+            calendar.render();
         });
-        evenement = calendar.getEvents();
-        calendar.render();
-      });
     </script>
 {% endblock %}
 {% block content %}
     <h1>Pannel de votre médiathèque </h1>
-    <nav class="navbar navbar-light" style="background: #46ff83">
-    <a href="{% url 'print_atelier' %}" class="btn btn-link">Afficher les ateliers de votre médiathèque</a>
+    <nav class="navbar navbar-light">
+        <a href="{% url 'print_atelier' %}" class="btn btn-link">Afficher les ateliers de votre médiathèque</a>
 
 
-    <p><a href="add_atelier.html">Ajout d'un atelier</a></p>
+        <p><a href="add_atelier.html">Ajout d'un atelier</a></p>
 
-    <p><a href="{% url 'print_animation' %}">Afficher les ateliers pour valider les inscriptions</a></p>
+        <p><a href="{% url 'print_animation' %}">Afficher les ateliers pour valider les inscriptions</a></p>
     </nav>
-<div id='calendar'></div>
+    <div id='calendar'></div>
 {% endblock %}

@@ -17,29 +17,30 @@
     <h2>Utilisateur inscrit a l'atelier</h2>
     <form method="post">
         {% csrf_token %}
-    {% for user in reservations %}
-        {% if user.Validated %}
-            <p>
-            {{ user.user.username }}
-            <input type="hidden" name="animation_id_supp" value="{{ animation.id }}">
-            <button type="submit" formmethod="POST"
-                    formaction="{% url "delete_inscription"%}" name="user_id_supp" value="{{ user.user.id }}">
-                Supprimer</button>
-            </p>
-        {% endif %}
-    {% endfor %}
+        {% for user in reservations %}
+            {% if user.Validated %}
+                <p>
+                    {{ user.user.username }}
+                    <input type="hidden" name="animation_id_supp" value="{{ animation.id }}">
+                    <button type="submit" formmethod="POST"
+                            formaction="{% url "delete_inscription"%}" name="user_id_supp" value="{{ user.user.id }}">
+                        Supprimer</button>
+                </p>
+            {% endif %}
+        {% endfor %}
 
-    <h2>Utilisateur voulant s'inscrire à l'atelier </h2>
-    {% for user in reservations %}
+        <h2>Utilisateur voulant s'inscrire à l'atelier </h2>
+        {% for user in reservations %}
 
-        {% if not user.Validated %}
-            <p>
-                {{ user.user.username }}
-                <input type="hidden" name="anim_id" value="{{ animation.id }}">
-                <button type="submit" formmethod="POST"
-                    formaction="{% url "confirm_inscription"%}" name="user_id" value="{{ user.user.id }}">
-                Valider</button>
-        </p>
-        {% endif %}
-    {% endfor %}
+            {% if not user.Validated %}
+                <p>
+                    {{ user.user.username }}
+                    <input type="hidden" name="anim_id" value="{{ animation.id }}">
+                    <button type="submit" formmethod="POST"
+                            formaction="{% url "confirm_inscription"%}" name="user_id" value="{{ user.user.id }}">
+                        Valider</button>
+                </p>
+            {% endif %}
+        {% endfor %}
+    </form>
 {% endblock %}
