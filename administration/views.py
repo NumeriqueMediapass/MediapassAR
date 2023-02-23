@@ -1,10 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.db.models.functions import Log
 from django.shortcuts import render, redirect, get_object_or_404
-
-from administration.forms import AddUserForm, edit_mediathequeForm, create_mediathequeForm
+from administration.forms import edit_mediathequeForm, create_mediathequeForm
 from mediatheque.models import Mediatheque
 
 
@@ -14,7 +12,11 @@ def index(request):
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
-    return render(request, 'administration/index.html')
+    # On récupère le fichier debug.log
+    with open('debug.log', 'r') as f:
+        # On récupère tout le contenu du fichier et on le transforme en ligne
+        log = f.read().splitlines()
+    return render(request, 'administration/index.html', {'log': log})
 
 
 # Fonction pour afficher les utilisateurs de la base de données

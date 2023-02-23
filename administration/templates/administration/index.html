@@ -9,4 +9,13 @@
         <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
         <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
     </nav>
+
+    <h1>Administration</h1>
+    <h2>Log du site</h2>
+    <p>
+    <!-- On affiches les logs avec le ficher debug.log -->
+        {% for line in log %}
+            {{ line }}<br>
+        {% endfor %}
+    </p>
 {% endblock %}
