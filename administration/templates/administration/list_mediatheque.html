@@ -9,7 +9,7 @@
         <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
         <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
     </nav>
-    <div class="content_center">
+    <div class="text-center">
         {% if mediatheques.count == 0  %}
             <h1>Auccune médiathèque n'a été créée</h1>
         {% else %}
