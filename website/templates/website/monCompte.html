@@ -1,7 +1,7 @@
 {%extends 'base.html'%}
 {%block title%}Mon Compte{%endblock%}
 {%block content%}
-    <nav class="navbar navbar-light" style="background: #92fdff " >
+    <nav class="navbar navbar-light">
         <!--Affichage de champs pour modifier les informations du compte-->
         <form method="post">
             {% csrf_token %}
@@ -9,7 +9,7 @@
             <a class="navbar-brand" href="{% url 'password_change'%}">Modifier votre mot de passe </a>
             <a class="navbar-brand" href="{% url 'editProfile'%}">Modifier votre compte </a>
             <a class="navbar-brand" href="{% url 'deleteProfile'%}">Supprimer votre compte </a>
-            <a class="navbar-brand" href="{% url 'acceuil' %}">Retour a l'acceuil</a>
+            <a class="navbar-brand" href="{% url 'acceuil' %}">Retour a l'accueil</a>
         </form>
     </nav>
     <h1>Ma page personnelle</h1>
