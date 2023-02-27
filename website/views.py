@@ -27,7 +27,7 @@ def acceuil(request):
     res = []
     form = CalendarWidget()
     for animation in animations:
-        if date.today() < animation.date < date.today() + timedelta(days=7):
+        if date.today() <= animation.date < date.today() + timedelta(days=7):
             res.append(animation)
         res[:5]
     return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim})
