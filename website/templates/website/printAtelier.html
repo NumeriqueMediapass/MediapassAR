@@ -3,17 +3,18 @@
 {% block title %} {{ animation.name }}{% endblock %}
 
 {% block content %}
-    <h1>{{ animation.name }}</h1>
-    <p><label> Description : {{ animation.description }}</label></p>
-    <p><label>Date : {{ animation.date }}</label></p>
-    <p><label>Heure de début : {{ animation.hour }}</label></p>
-    <p><label>Heure de fin : {{ animation.hour_end }}</label></p>
-    <img src="{{ animation.image.url }}" alt="Atelier image">
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" formmethod="POST"
+    <div class="text-center">
+        <h1>{{ animation.name }}</h1>
+        <p><label> Description : {{ animation.description }}</label></p>
+        <p><label>Date : {{ animation.date }}</label></p>
+        <p><label>Heure de début : {{ animation.hour }}</label></p>
+        <p><label>Heure de fin : {{ animation.hour_end }}</label></p>
+        <img src="{{ animation.image.url }}" alt="Atelier image">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" formmethod="POST"
                     formaction="{% url "deleteReservation" id=animation.id %}">
                 Se désincrire de cette animation </button>
-    </form>
-
+        </form>
+    </div>
 {% endblock %}

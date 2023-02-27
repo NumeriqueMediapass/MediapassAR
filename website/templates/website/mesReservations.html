@@ -3,12 +3,14 @@
 {% block title %} Liste des ateliers ou vous êtes inscrits {% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% for anim in animations %}
-            <p><a href="{%url "animation" id=anim.id%}">
-                {{ anim.name }}
+    <div class="text-center">
+        <h1>Vos réservations</h1>
+        <form method="POST">
+            {% for anim in animations %}
+                <p><a href="{%url "animation" id=anim.id%}">
+                    {{ anim.name }}
                 </a></p>
-
-        {% endfor %}
-    </form>
+            {% endfor %}
+        </form>
+    </div>
 {% endblock %}
