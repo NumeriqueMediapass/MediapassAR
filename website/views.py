@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required
-def acceuil(request):
+def accueil(request):
     # On récupère toutes les animations
     animations = Animation.objects.all()
     anim = Animation.objects.all()

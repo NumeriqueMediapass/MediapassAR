@@ -141,7 +141,7 @@ def edit_mediatheque(request, id):
         form = edit_mediathequeForm(request.POST, instance=mediatheque)
         if form.is_valid():
             form.save()
-            return redirect('get_mediatheques')
+        return redirect('get_mediatheques')
     else:
         form = edit_mediathequeForm(instance=mediatheque)
     return render(request, 'administration/print_mediatheque.html', {'form': form})

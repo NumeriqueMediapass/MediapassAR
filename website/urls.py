@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import acceuil, monCompte, password_change, editProfile, deleteProfile , inscription, \
+from .views import accueil, monCompte, password_change, editProfile, deleteProfile , inscription, \
     mesReservations, animation, deleteReservation , print_animations, animations
 
 
 urlpatterns = [
-    path('', acceuil, name='acceuil'),
+    path('', accueil, name='acceuil'),
     path('monCompte/', monCompte, name='monCompte'),
     path('password_change/', password_change, name='password_change'),
     path('editProfile/', editProfile, name='editProfile'),
