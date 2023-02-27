@@ -16,17 +16,14 @@
             <h1>Liste des médiathèque</h1>
             <form method="POST">
                 {% csrf_token %}
-                <ul>
-                    {% for mediatheque in mediatheques %}
-                        <li>
-                            <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
-                                {{ mediatheque.name }}
-                            </a>
-                        </li>
+                {% for mediatheque in mediatheques %}
+                    <p>
+                        <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
+                            {{ mediatheque.name }}
+                        </a>
                         <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">Supprimer
-                    {% endfor %}
-
-                </ul>
+                    </p>
+                {% endfor %}
                 <button type="submit" formmethod="POST" formaction="{% url "delete_mediatheque" %}">Supprimer</button>
             </form>
 
