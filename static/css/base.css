@@ -3,3 +3,27 @@
     height:300px;
 
 }
+
+.maxwidth {
+
+    max-width: 10%;
+
+}
+
+table {
+
+    width: 100%;
+
+}
+
+tr {
+
+    width: 10%;
+
+}
+
+td {
+
+    width: 10%;
+
+}

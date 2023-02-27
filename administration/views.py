@@ -12,10 +12,8 @@ def index(request):
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
-    # On récupère le fichier debug.log
-    with open('debug.log', 'r') as f:
-        # On récupère tout le contenu du fichier et on le transforme en ligne
-        log = f.read().splitlines()
+    # On récupère la liste des dernières connexions avec la date et l'heure
+    log = User.objects.all().order_by('-last_login')
     return render(request, 'administration/index.html', {'log': log})
 
 

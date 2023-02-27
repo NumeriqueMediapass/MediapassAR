@@ -15,7 +15,7 @@
     <p>
     <!-- On affiches les logs avec le ficher debug.log -->
         {% for line in log %}
-            {{ line }}<br>
+            <b>{{ line }}</b> : {{ line.last_login }}<br>
         {% endfor %}
     </p>
 {% endblock %}
