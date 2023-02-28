@@ -28,16 +28,12 @@
 {% load static %}
 {% block content %}
     <div class="text-center">
-        {% if animations.count != 1  %}
+        {% if anim %}
             <h1>Nouveautés !</h1>
-
             <h2>Les 5 derniers ateliers</h2>
-            </div>
-
             <form method="POST">
                 {% csrf_token %}
                 <div class="row">
-
                     {% for atelier in animations %}
                         <div class="col-md-6 col-sm-12">
                             <div class="card" >
@@ -53,18 +49,12 @@
                             </div>
                         </div>
                     {% endfor %}
-
-                    <input type="submit" name="submit" value="Afficher plus d'atelier" formaction="{% url "animations" %}">
+                    <a href="{% url "animations" %}" class="btn btn-outline-primary">Afficher plus d'atelier</a>
                 </div>
-
             </form>
-
         {% else %}
             <h1>Il n'y a pas d'atelier pour le moment</h1>
-
-
         {% endif %}
-
     </div>
     <div id="calendar"></div>
 {% endblock %}

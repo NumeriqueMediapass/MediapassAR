@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from administration.forms import edit_mediathequeForm, create_mediathequeForm
+from administration.forms import create_mediathequeForm, EditMediathequeForm
 from mediatheque.models import Mediatheque
 
 
@@ -28,6 +28,7 @@ def print_users(request):
     # On les affiche dans la page users.html
     return render(request, 'administration/users.html', {'users': users})
 
+
 # Fonction qui permet de supprimer un ou plusieurs utilisateurs
 def delete_users(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
@@ -41,6 +42,7 @@ def delete_users(request):
         for user in users:
             User.objects.get(id=user).delete()
         return redirect('print_users')
+
 
 # Fonction qui permet de modifier les informations d'un utilisateur
 def edit_user(request, id):
@@ -88,7 +90,6 @@ def edit_user(request, id):
     return render(request, 'administration/edit_user.html', context)
 
 
-
 # Fonction qui permet de créer un utilisateur
 def create_user(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
@@ -102,6 +103,7 @@ def create_user(request):
         form.save()
         return redirect('print_users')
     return render(request, 'administration/create_user.html', {'form': form})
+
 
 # Fonction qui permet de créer une mediatheque
 def create_mediatheque(request):
@@ -118,6 +120,7 @@ def create_mediatheque(request):
         form = create_mediathequeForm()
     return render(request, 'administration/create_mediatheque.html', {'form': form})
 
+
 # Fonction qui récupère la liste des médiathèques
 def get_mediatheques(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
@@ -130,19 +133,26 @@ def get_mediatheques(request):
 
 # Fonction qui permet de modifier les informations d'une médiathèque
 def edit_mediatheque(request, id):
-    # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
-        # On le renvoie vers la page d'accueil
-        return redirect('acceuil')
-    mediatheque = Mediatheque.objects.get(id=id)
+    # On vérifie si l'utilisateur est un superutilisateur ou un membre du personnel
+    if not request.user.is_superuser and not request.user.is_staff:
+        # On le redirige vers la page d'accueil
+        return redirect('accueil')
+
+    # On récupère l'objet Mediatheque correspondant à l'id donné, ou on renvoie une erreur 404 si l'id n'existe pas
+    mediatheque = get_object_or_404(Mediatheque, id=id)
+
     if request.method == 'POST':
-        form = edit_mediathequeForm(request.POST, instance=mediatheque)
-        if form.is_valid():
+        form = EditMediathequeForm(request.POST, instance=mediatheque)
+        if form.has_changed() and form.is_valid():
             form.save()
-        return redirect('get_mediatheques')
+            messages.success(request, "La médiatheque a été modifiée")
+            return redirect('get_mediatheques')
     else:
-        form = edit_mediathequeForm(instance=mediatheque)
+        form = EditMediathequeForm(instance=mediatheque)
+
     return render(request, 'administration/print_mediatheque.html', {'form': form})
+
+
 
 # Fonction qui permet de supprimer une/des médiathèques
 def delete_mediatheque(request):

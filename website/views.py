@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
+from django.contrib import messages
 from django.core.mail import send_mail
-from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.admin import User
@@ -10,27 +10,34 @@ from mediatheque.models import Animation, Reservation, Mediatheque
 from website.forms import EditProfileForm, PasswordChangingForm, CalendarWidget
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
 
-@login_required
 def accueil(request):
     # On récupère toutes les animations
     animations = Animation.objects.all()
     anim = Animation.objects.all()
-    # On récupère les réservations pour l'utilisateur connecté
-    reservations = Reservation.objects.filter(user=request.user, Validated=True)
-    # On récupère les IDs des animations pour lesquelles l'utilisateur est déjà inscrit
-    animation_ids = [reservation.animation.id for reservation in reservations]
-    # On filtre les animations pour exclure celles pour lesquelles l'utilisateur est déjà inscrit
-    animations = animations.exclude(id__in=animation_ids)
-    animations = animations.order_by('date')
     res = []
+
+    if request.user.is_authenticated:
+        # On récupère les réservations pour l'utilisateur connecté
+        reservations = Reservation.objects.filter(user=request.user, Validated=True)
+        # On récupère les IDs des animations pour lesquelles l'utilisateur est déjà inscrit
+        animation_ids = [reservation.animation.id for reservation in reservations]
+        # On filtre les animations pour exclure celles pour lesquelles l'utilisateur est déjà inscrit
+        animations = animations.exclude(id__in=animation_ids)
+
+    animations = animations.order_by('date')
     form = CalendarWidget()
+
     for animation in animations:
         if date.today() <= animation.date < date.today() + timedelta(days=7):
             res.append(animation)
-        res[:5]
+
+    res = res[:5]
+
     return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim})
+
 
 # Fonction qui affiche toute les animations
 def animations(request):
@@ -43,8 +50,10 @@ def animations(request):
             animation.append(tmp)
     return render(request, 'website/animations.html', {'animation': animation})
 
+
 def monCompte(request):
     return render(request, 'website/monCompte.html')
+
 
 def password_change(request):
     if request.method == 'POST':
@@ -68,16 +77,17 @@ def editProfile(request):
         form = EditProfileForm(request.POST, instance=request.user)
         # Vérifie si le formulaire est valide
         if form.is_valid():
-            # Vérifie si le nom d'utilisateur est déjà utilisé
-            if User.objects.filter(username=form.cleaned_data['username']).exists():
+            user = form.save(commit=False)
+            if user.username != request.user.username and User.objects.filter(username=user.username).exists():
                 messages.error(request, "Ce nom d'utilisateur est déjà utilisé")
                 return redirect('editProfile')
-            form.save()
+            user.save()
+            messages.success(request, "Votre profil a été mis à jour avec succès.")
             return redirect('monCompte')
     else:
         form = EditProfileForm(instance=request.user)
-        args = {'form': form}
-        return render(request, 'website/account_change.html', args)
+    args = {'form': form}
+    return render(request, 'website/account_change.html', args)
 
 
 # Fonction qui supprime un utilisateur
@@ -92,7 +102,6 @@ def deleteProfile(request):
         return render(request, 'website/delete_account.html')
 
 
-
 def print_animations(request, id_anim):
     # On récupère l'animation
     animation = Animation.objects.get(id=id_anim)
@@ -100,6 +109,7 @@ def print_animations(request, id_anim):
     reservations = Reservation.objects.filter(user=request.user, animation_id=id_anim)
     print(reservations)
     return render(request, 'website/inscriptionAtelier.html', {'animation': animation, 'reservations': reservations})
+
 
 # Fonction qui inscrit un utilisateur a une animation
 def inscription(request):
@@ -129,6 +139,7 @@ def inscription(request):
     send_mail(subject, message, email_from, recipient_list)
     return redirect('acceuil')
 
+
 # Fonction qui permet de voir les animations auxquelles l'utilisateur est inscrit
 def mesReservations(request):
     # On récupère l'utilisateur connecté
@@ -140,11 +151,13 @@ def mesReservations(request):
         animations.append(reservation.animation)
     return render(request, 'website/mesReservations.html', {'animations': animations})
 
+
 # Fonction qui affiche l'animation sélectionnée
 def animation(request, id):
     # On récupère l'animation
     animation = Animation.objects.get(id=id)
     return render(request, 'website/printAtelier.html', {'animation': animation})
+
 
 # Fonction qui permet de supprimer une réservation
 def deleteReservation(request, id):

@@ -1,4 +1,3 @@
-
 from django.contrib import messages
 from django.shortcuts import render
 from django.conf import settings
@@ -8,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 import logging
+
 
 # Create your views here.
 
@@ -26,6 +26,7 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'connexion/connexion.html', context={'form': form})
+
 
 def signup(request):
     if request.method == 'POST':
