@@ -15,28 +15,20 @@ from django.contrib.auth.decorators import login_required
 
 def accueil(request):
     # On récupère toutes les animations
-    animations = Animation.objects.all()
+    animations = Animation.objects.all().order_by('date')
     anim = Animation.objects.all()
     res = []
-
-    if request.user.is_authenticated:
-        # On récupère les réservations pour l'utilisateur connecté
-        reservations = Reservation.objects.filter(user=request.user, Validated=True)
-        # On récupère les IDs des animations pour lesquelles l'utilisateur est déjà inscrit
-        animation_ids = [reservation.animation.id for reservation in reservations]
-        # On filtre les animations pour exclure celles pour lesquelles l'utilisateur est déjà inscrit
-        animations = animations.exclude(id__in=animation_ids)
-
-    animations = animations.order_by('date')
+    tmp = 0
     form = CalendarWidget()
 
     for animation in animations:
         if date.today() <= animation.date < date.today() + timedelta(days=7):
             res.append(animation)
+            tmp = res.count(animation)
 
     res = res[:5]
 
-    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim})
+    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim, 'tmp': tmp})
 
 
 # Fonction qui affiche toute les animations
