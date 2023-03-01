@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from mediatheque.models import Mediatheque
+from django.core.exceptions import ValidationError
 
 
 # Formulaire pour ajouter un utilisateur
@@ -72,7 +73,7 @@ class create_mediathequeForm(forms.ModelForm):
         return user
 
 
-class edit_mediathequeForm(forms.ModelForm):
+class EditMediathequeForm(forms.ModelForm):
     user = forms.ModelChoiceField(queryset=User.objects.all())
 
     class Meta:
@@ -94,8 +95,13 @@ class edit_mediathequeForm(forms.ModelForm):
         }
 
     # On regarde si le nom est déjà utilisé dans une autre médiathèque
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        if Mediatheque.objects.filter(name=name).exists():
-            raise forms.ValidationError("Ce nom est déjà utilisé")
-        return name
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        if not name:
+            return cleaned_data
+        mediatheque = Mediatheque.objects.filter(name=name).exclude(id=self.instance.id).first()
+        if mediatheque:
+            raise ValidationError('Ce nom est déjà utilisé')
+        return cleaned_data
+

@@ -12,7 +12,7 @@
         {% if animations.count == 0  %}
             <h1>Vous n'avez pas encore créer d'atelier ! </h1>
         {% else %}
-            <h1>Ateliers</h1>
+            <h1>Ateliers {{ mediatheque.name }}</h1>
             {% for atelier in animations %}
                 <form method="POST">
                 {% csrf_token %}

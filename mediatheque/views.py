@@ -16,7 +16,9 @@ def is_staff_or_superuser(user):
 def index(request):
     # On récupère les animations de la médiathèque
     animations = Animation.objects.filter(users_id=request.user)
-    return render(request, 'mediatheque/index.html', {'animations': animations})
+    # On récupère la médiathèque de l'utilisateur
+    mediatheque = Mediatheque.objects.get(user_id=request.user)
+    return render(request, 'mediatheque/index.html', {'animations': animations, 'mediatheque': mediatheque})
 
 @user_passes_test(is_staff_or_superuser)
 def print_atelier(request):
@@ -29,7 +31,8 @@ def print_atelier(request):
         elif request.user.is_staff:
             # On récupère les animations de la médiathèque de l'utilisateur
             animations = Animation.objects.filter(users_id=request.user)
-            return render(request, 'mediatheque/atelier.html', {'animations': animations})
+            mediatheque = Mediatheque.objects.get(user_id=request.user)
+            return render(request, 'mediatheque/atelier.html', {'animations': animations, 'mediatheque': mediatheque})
 @user_passes_test(is_staff_or_superuser)
 def add_atelier(request):
     if request.method == 'POST':
