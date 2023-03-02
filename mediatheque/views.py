@@ -45,10 +45,10 @@ def AddAtelier(request):
             animation = form.save(commit=False)
             animation.users = request.user
             animation.save()
-            return redirect('print_atelier')
+            return redirect('AtelierViews')
     else:
         form = AnimationForm()
-    return render(request, 'mediatheque/add_atelier.html', {'form': form})
+    return render(request, 'mediatheque/AddAtelier.html', {'form': form})
 
 
 @user_passes_test(is_staff_or_superuser)
@@ -58,7 +58,7 @@ def AtelierDelation(request):
         id_animations = request.POST.getlist('atelier')
         for id_animation in id_animations:
             Animation.objects.get(id=id_animation).delete()
-        return redirect('print_atelier')
+        return redirect('AtelierViews')
 
 
 @user_passes_test(is_staff_or_superuser)
@@ -68,10 +68,10 @@ def AtelierEditing(request, idanimations):
         form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
         if form.is_valid():
             form.save()
-            return redirect('print_atelier')
+            return redirect('AtelierViews')
     else:
         form = AnimationUpdateForm(instance=animation)
-    return render(request, 'mediatheque/edit_atelier.html', {'form': form})
+    return render(request, 'mediatheque/AtelierEditing.html', {'form': form})
 
 
 # Fonction qui permet de récupérer les reservations d'un utilisateur
@@ -82,7 +82,7 @@ def InscriptionGet(request, idanimations):
     # On récupère les réservations de l'animation
     reservations = Reservation.objects.filter(animation=animation)
 
-    return render(request, 'mediatheque/confirm_inscription.html',
+    return render(request, 'mediatheque/SignupConfirm.html',
                   {'animation': animation, 'reservations': reservations})
 
 
@@ -108,7 +108,7 @@ def SignupConfirm(request):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [reservation.user.email]
         send_mail(subject, message, email_from, recipient_list)
-    return redirect('get_inscription', id=animation.id)
+    return redirect('InscriptionGet', id=animation.id)
 
 
 # Fonction qui permet de supprimer l'inscription d'un utilisateur à une animation de notre médiathèque
@@ -125,7 +125,7 @@ def SignupDeleting(request):
         reservation.Validated = False
         # On sauvegarde la réservation
         reservation.save()
-    return redirect('get_inscription', id=animation.id)
+    return redirect('InscriptionGet', id=animation.id)
 
 
 # Fonction qui permet de récupérer les animations de la médiathèque de l'utilisateur
@@ -135,4 +135,4 @@ def AnimationViews(request):
     mediatheques = Mediatheque.objects.get(user=request.user)
     animations = Animation.objects.filter(users_id=request.user)
     return render(request,
-                  'mediatheque/list_animation.html', {'mediatheques': mediatheques, 'animations': animations})
+                  'mediatheque/AnimationList.html', {'mediatheques': mediatheques, 'animations': animations})

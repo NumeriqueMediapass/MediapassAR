@@ -8,12 +8,12 @@ from .views import AtelierViews, AddAtelier, AtelierEditing, AtelierDelation, In
 
 urlpatterns = [
     path('mediatheque/index.html', views.index, name='index_mediatheque'),
-    path('mediatheque/atelier.html', AtelierViews, name='print_atelier'),
-    path('mediatheque/add_atelier.html', AddAtelier, name='add_atelier'),
-    path('mediatheque/edit_atelier/<int:id>', AtelierEditing, name='edit_atelier'),
-    path('mediatheque/delete_atelier.html', AtelierDelation, name='delete_atelier'),
-    path('mediatheque/confirm_inscription/<int:id>', InscriptionGet, name='get_inscription'),
-    path('mediatheque/list_animation.html', AnimationViews, name='print_animation'),
-    path('mediatheque/confirm_inscription/', SignupConfirm, name='confirm_inscription'),
-    path('mediatheque/delete_inscription/', SignupDeleting, name='delete_inscription'),
+    path('mediatheque/atelier.html', AtelierViews, name='AtelierViews'),
+    path('mediatheque/AddAtelier.html', AddAtelier, name='AddAtelier'),
+    path('mediatheque/edit_atelier/<int:id>', AtelierEditing, name='AtelierEditing'),
+    path('mediatheque/delete_atelier.html', AtelierDelation, name='AtelierDelation'),
+    path('mediatheque/confirm_inscription/<int:id>', InscriptionGet, name='InscriptionGet'),
+    path('mediatheque/AnimationList.html', AnimationViews, name='AnimationViews'),
+    path('mediatheque/confirm_inscription/', SignupConfirm, name='SignupConfirm'),
+    path('mediatheque/delete_inscription/', SignupDeleting, name='SignupDeleting'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

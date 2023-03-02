@@ -23,7 +23,7 @@
                     {{ user.user.username }}
                     <input type="hidden" name="animation_id_supp" value="{{ animation.id }}">
                     <button type="submit" formmethod="POST"
-                            formaction="{% url "delete_inscription"%}" name="user_id_supp" value="{{ user.user.id }}">
+                            formaction="{% url "SignupDeleting" %}" name="user_id_supp" value="{{ user.user.id }}">
                         Supprimer</button>
                 </p>
             {% endif %}
@@ -37,7 +37,7 @@
                     {{ user.user.username }}
                     <input type="hidden" name="anim_id" value="{{ animation.id }}">
                     <button type="submit" formmethod="POST"
-                            formaction="{% url "confirm_inscription"%}" name="user_id" value="{{ user.user.id }}">
+                            formaction="{% url "SignupConfirm" %}" name="user_id" value="{{ user.user.id }}">
                         Valider</button>
                 </p>
             {% endif %}
