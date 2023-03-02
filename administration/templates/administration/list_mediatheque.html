@@ -18,7 +18,7 @@
                 {% csrf_token %}
                 {% for mediatheque in mediatheques %}
                     <p>
-                        <a href="{%url "MediaLibraryEditing" id=mediatheque.id%}">
+                        <a href="{%url "MediaLibraryEditing" idmedialibrary=mediatheque.id%}">
                             {{ mediatheque.name }}
                         </a>
                         <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">Supprimer

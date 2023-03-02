@@ -8,7 +8,7 @@
         <p><a class="navbar-brand" href="{% url 'MediaLibraryCreations' %}">Ajouter une médiathèque </a></p>
     </nav>
     <div class="text-center">
-    {% if users.count == 0 %}
+    {% if res != 0 %}
         <h1>Utilisateur</h1>
         <p>Voici la liste des utilisateurs</p>
         <form method="POST">
@@ -19,7 +19,7 @@
                 {% if user.is_superuser%}
                 {% else %}
                     <p>
-                        <a href="{%url "UsersEdit" id=user.id%}">
+                        <a href="{%url "UsersEdit" idusers=user.id%}">
                             {{ user.username }}
                         </a>
 
