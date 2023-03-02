@@ -2,9 +2,9 @@
 {% block title %}Liste des ateliers de votre médiathèque ! {% endblock %}
 {% block content %}
     <nav class="navbar navbar-light">
-        <p><a class="navbar-brand" href="add_atelier.html">Ajout d'un atelier</a></p>
+        <p><a class="navbar-brand" href="AddAtelier.html">Ajout d'un atelier</a></p>
 
-        <p><a class="navbar-brand" href="{% url 'print_animation' %}">Afficher les ateliers pour valider les inscriptions</a></p>
+        <p><a class="navbar-brand" href="{% url 'AnimationViews' %}">Afficher les ateliers pour valider les inscriptions</a></p>
     </nav>
     <div class="text-center">
 
@@ -16,13 +16,13 @@
             {% for atelier in animations %}
                 <form method="POST">
                 {% csrf_token %}
-                <a href="{%url "edit_atelier" id=atelier.id%}">
+                <a href="{%url "AtelierEditing" id=atelier.id%}">
                     <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
                 </a>
                 <input type="checkbox" name="atelier" value="{{ atelier.id }}">Supprimer l'atelier
             {% endfor %}
             <br>
-            <button type="submit" formmethod="POST" formaction="{% url "delete_atelier" %}">Supprimer</button>
+            <button type="submit" formmethod="POST" formaction="{% url "AtelierDelation" %}">Supprimer</button>
             </form>
         {% endif %}
 
