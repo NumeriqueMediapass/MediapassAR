@@ -15,6 +15,7 @@
                             title: '{{ animation.name }}',
                             start: '{{animation.date|date:"Y-m-d"}}',
                             end: '{{animation.date|date:"Y-m-d"}}',
+                            url: '{% url "InscriptionGet" idanimation=animation.id %}'
                         },
                     {% endfor %}
                 ]

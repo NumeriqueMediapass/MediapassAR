@@ -25,11 +25,9 @@ def UsersViews(request):
         return redirect('acceuil')
     # On récupère tous les utilisateurs de la base de données ainsi que leurs informations
     users = User.objects.all()
-    print(users)
     res = Mediatheque.objects.all().count()
-    print(res)
     # On les affiche dans la page users.html
-    return render(request, 'administration/users.html', {'users': users , 'res': res})
+    return render(request, 'administration/users.html', {'users': users, 'res': res})
 
 # Fonction qui permet de supprimer un ou plusieurs utilisateurs
 def UserDeletion(request):
