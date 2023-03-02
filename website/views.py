@@ -18,7 +18,7 @@ def accueil(request):
     animations = Animation.objects.all().order_by('date')
     anim = Animation.objects.all()
     res = []
-    tmp = 0
+    user = request.user
     form = CalendarWidget()
 
     for animation in animations:
@@ -27,20 +27,20 @@ def accueil(request):
             tmp = res.count(animation)
 
     res = res[:5]
-
-    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim, 'tmp': tmp})
+    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim, 'tmp': tmp
+                                                    , 'user': user})
 
 
 # Fonction qui affiche toute les animations
 def animations(request):
     # On récupère toutes les animations
-    animations = Animation.objects.all()
-    animations = animations.order_by('date')
+    animations = Animation.objects.all().order_by('date')
     animation = []
+    user = request.user
     for tmp in animations:
         if tmp.date > date.today():
             animation.append(tmp)
-    return render(request, 'website/animations.html', {'animation': animation})
+    return render(request, 'website/animations.html', {'animation': animation, 'user': user})
 
 
 def monCompte(request):

@@ -3,11 +3,12 @@
 {% block content %}
     <nav class="navbar navbar-light">
         <!-- On affiche les liens des autres-->
-        <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
-        <p><a class="navbar-brand" href="{% url 'get_mediatheques' %}">Médiathèques</a></p>
-        <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+        <p><a class="navbar-brand" href="{% url 'UsersCreation' %}">Ajouter un utilisateur</a></p>
+        <p><a class="navbar-brand" href="{% url 'MediaLibraryViews' %}">Médiathèques</a></p>
+        <p><a class="navbar-brand" href="{% url 'MediaLibraryCreations' %}">Ajouter une médiathèque </a></p>
     </nav>
     <div class="text-center">
+    {% if users.count == 0 %}
         <h1>Utilisateur</h1>
         <p>Voici la liste des utilisateurs</p>
         <form method="POST">
@@ -18,7 +19,7 @@
                 {% if user.is_superuser%}
                 {% else %}
                     <p>
-                        <a href="{%url "edit_user" id=user.id%}">
+                        <a href="{%url "UsersEdit" id=user.id%}">
                             {{ user.username }}
                         </a>
 
@@ -28,7 +29,11 @@
                 {% endif %}
             {% endfor %}
 
-            <button type="submit" formmethod="POST" formaction="{% url "delete_users" %}">Supprimer</button>
+            <button type="submit" formmethod="POST" formaction="{% url "UserDeletion" %}">Supprimer</button>
         </form>
+    {% else %}
+        <h1>Utilisateur</h1>
+        <h2>Il n'y a pas d'utilisateur</h2>
+    {% endif %}
     </div>
 {% endblock %}

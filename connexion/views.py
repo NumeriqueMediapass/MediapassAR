@@ -45,8 +45,8 @@ def signup(request):
                     messages.error(request, 'Ce username est déjà utilisé')
                     return redirect('signup')
                 else:
-                    user = User.objects.create_user(username=username, email=email, password=password1,
-                                                    first_name=first_name, last_name=last_name)
+                    user = User.objects.UsersCreation(username=username, email=email, password=password1,
+                                                      first_name=first_name, last_name=last_name)
                     # Envoi d'un email simple de confirmation
                     subject = 'Confirmation de votre inscription'
                     message = 'Bonjour {}, merci de vous être inscrit sur notre site.'.format(username)

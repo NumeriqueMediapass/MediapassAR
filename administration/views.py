@@ -18,7 +18,7 @@ def index(request):
 
 
 # Fonction pour afficher les utilisateurs de la base de données
-def print_users(request):
+def UsersViews(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -29,7 +29,7 @@ def print_users(request):
     return render(request, 'administration/users.html', {'users': users})
 
 # Fonction qui permet de supprimer un ou plusieurs utilisateurs
-def delete_users(request):
+def UserDeletion(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -40,10 +40,10 @@ def delete_users(request):
         users = request.POST.getlist('users')
         for user in users:
             User.objects.get(id=user).delete()
-        return redirect('print_users')
+        return redirect('UsersViews')
 
 # Fonction qui permet de modifier les informations d'un utilisateur
-def edit_user(request, id):
+def UsersEdit(request, idusers):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -51,14 +51,14 @@ def edit_user(request, id):
     if request.method == 'POST':
         # On récupère l'utilisateur dont l'id est passé en paramètre
         # user_info = User.objects.get(id=id)
-        user_info = get_object_or_404(User, id=id)
+        user_info = get_object_or_404(User, id=idusers)
         # On vérifie si le nom d'utilisateur est déjà utilisé
         if User.objects.filter(username=request.POST['username']).exists():
             if user_info.username != request.POST['username']:
                 # On affiche un message d'erreur
                 messages.error(request, "Ce nom d'utilisateur est déjà utilisé")
                 # On redirige vers la page d'édition de l'utilisateur
-                return redirect('edit_user', id=id)
+                return redirect('UsersEdit', id=idusers)
             else:
                 # On modifie les informations de l'utilisateur
                 user_info.username = request.POST['username']
@@ -80,9 +80,9 @@ def edit_user(request, id):
                 # On sauvegarde les modifications
                 user_info.save()
                 # On redirige vers la page des utilisateurs
-                return redirect('print_users')
+                return redirect('UsersViews')
     # On récupère l'utilisateur dont l'id est passé en paramètre
-    user_info = User.objects.get(id=id)
+    user_info = User.objects.get(id=idusers)
     context = {'user_info': user_info}
     # On affiche le formulaire d'édition de l'utilisateur
     return render(request, 'administration/edit_user.html', context)
@@ -90,7 +90,7 @@ def edit_user(request, id):
 
 
 # Fonction qui permet de créer un utilisateur
-def create_user(request):
+def UsersCreation(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -100,11 +100,11 @@ def create_user(request):
     if form.is_valid():
         # On sauvegarde les informations de l'utilisateur
         form.save()
-        return redirect('print_users')
+        return redirect('UsersViews')
     return render(request, 'administration/create_user.html', {'form': form})
 
 # Fonction qui permet de créer une mediatheque
-def create_mediatheque(request):
+def MediaLibraryCreations(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -113,13 +113,13 @@ def create_mediatheque(request):
         form = create_mediathequeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index_admin')
+            return redirect('MediaLibraryViews')
     else:
         form = create_mediathequeForm()
     return render(request, 'administration/create_mediatheque.html', {'form': form})
 
 # Fonction qui récupère la liste des médiathèques
-def get_mediatheques(request):
+def MediaLibraryViews(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -129,21 +129,21 @@ def get_mediatheques(request):
 
 
 # Fonction qui permet de modifier les informations d'une médiathèque
-def edit_mediatheque(request, id):
+def MediaLibraryEditing(request, idmedialibrary):
     # On vérifie si l'utilisateur est un superutilisateur ou un membre du personnel
     if not request.user.is_superuser and not request.user.is_staff:
         # On le redirige vers la page d'accueil
         return redirect('accueil')
 
     # On récupère l'objet Mediatheque correspondant à l'id donné, ou on renvoie une erreur 404 si l'id n'existe pas
-    mediatheque = get_object_or_404(Mediatheque, id=id)
+    mediatheque = get_object_or_404(Mediatheque, id=idmedialibrary)
 
     if request.method == 'POST':
         form = EditMediathequeForm(request.POST, instance=mediatheque)
         if form.has_changed() and form.is_valid():
             form.save()
             messages.success(request, "La médiatheque a été modifiée")
-            return redirect('get_mediatheques')
+            return redirect('MediaLibraryViews')
     else:
         form = EditMediathequeForm(instance=mediatheque)
 
@@ -151,7 +151,7 @@ def edit_mediatheque(request, id):
 
 
 # Fonction qui permet de supprimer une/des médiathèques
-def delete_mediatheque(request):
+def MediaLibraryDelation(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
     if not request.user.is_superuser or not request.user.is_staff:
         # On le renvoie vers la page d'accueil
@@ -162,4 +162,4 @@ def delete_mediatheque(request):
         mediatheques = request.POST.getlist('mediatheques')
         for mediatheque in mediatheques:
             Mediatheque.objects.get(id=mediatheque).delete()
-        return redirect('get_mediatheques')
+        return redirect('MediaLibraryViews')

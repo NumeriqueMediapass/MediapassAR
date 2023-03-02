@@ -5,9 +5,9 @@
 
     <nav class="navbar navbar-light">
         <!-- On affiche les liens des autres-->
-        <p><a class="navbar-brand" href="{% url 'print_users' %}">Utilisateurs</a></p>
-        <p><a class="navbar-brand" href="{% url 'create_user' %}">Ajouter un utilisateur</a></p>
-        <p><a class="navbar-brand" href="{% url 'create_mediatheque' %}">Ajouter une médiathèque </a></p>
+        <p><a class="navbar-brand" href="{% url 'UsersViews' %}">Utilisateurs</a></p>
+        <p><a class="navbar-brand" href="{% url 'UsersCreation' %}">Ajouter un utilisateur</a></p>
+        <p><a class="navbar-brand" href="{% url 'MediaLibraryCreations' %}">Ajouter une médiathèque </a></p>
     </nav>
     <div class="text-center">
         {% if mediatheques.count == 0  %}
@@ -18,13 +18,13 @@
                 {% csrf_token %}
                 {% for mediatheque in mediatheques %}
                     <p>
-                        <a href="{%url "edit_mediatheque" id=mediatheque.id%}">
+                        <a href="{%url "MediaLibraryEditing" id=mediatheque.id%}">
                             {{ mediatheque.name }}
                         </a>
                         <input type="checkbox" name="mediatheques" value="{{ mediatheque.id }}">Supprimer
                     </p>
                 {% endfor %}
-                <button type="submit" formmethod="POST" formaction="{% url "delete_mediatheque" %}">Supprimer</button>
+                <button type="submit" formmethod="POST" formaction="{% url "MediaLibraryDelation" %}">Supprimer</button>
             </form>
 
         {% endif %}
