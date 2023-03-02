@@ -76,9 +76,9 @@ def AtelierEditing(request, idanimations):
 
 # Fonction qui permet de récupérer les reservations d'un utilisateur
 @user_passes_test(is_staff_or_superuser)
-def InscriptionGet(request, idanimations):
+def InscriptionGet(request, idanimation):
     # On récupère l'atelier
-    animation = Animation.objects.get(id=idanimations)
+    animation = Animation.objects.get(id=idanimation)
     # On récupère les réservations de l'animation
     reservations = Reservation.objects.filter(animation=animation)
 

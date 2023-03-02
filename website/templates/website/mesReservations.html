@@ -11,7 +11,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {% for anim in animations %}
-                    <p><a href="{%url "animation" id=anim.id%}">
+                    <p><a href="{%url "animation" idanimations=anim.id%}">
                         {{ anim.name }}
                     </a></p>
                 {% endfor %}

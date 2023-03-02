@@ -16,7 +16,7 @@
             {% for atelier in animations %}
                 <form method="POST">
                 {% csrf_token %}
-                <a href="{%url "AtelierEditing" id=atelier.id%}">
+                <a href="{%url "AtelierEditing" idanimations=atelier.id%}">
                     <li>{{ atelier.name }} {{ atelier.users.mediatheque.name }}</li>
                 </a>
                 <input type="checkbox" name="atelier" value="{{ atelier.id }}">Supprimer l'atelier
