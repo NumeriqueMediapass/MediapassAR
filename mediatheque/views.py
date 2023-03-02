@@ -12,6 +12,7 @@ from mediatheque.models import Animation, Reservation, Mediatheque
 def is_staff_or_superuser(user):
     return user.is_staff or user.is_superuser
 
+
 @user_passes_test(is_staff_or_superuser)
 def index(request):
     # On récupère les animations de la médiathèque
@@ -20,21 +21,24 @@ def index(request):
     mediatheque = Mediatheque.objects.get(user_id=request.user)
     return render(request, 'mediatheque/index.html', {'animations': animations, 'mediatheque': mediatheque})
 
+
 @user_passes_test(is_staff_or_superuser)
-def print_atelier(request):
-        # On regarde si l'utilisateur est un admin
-        if request.user.is_superuser:
-            # On récupère toutes les animations
-            animations = Animation.objects.all()
-            return render(request, 'mediatheque/atelier.html', {'animations': animations})
-        # On regarde si l'utilisateur est un staff
-        elif request.user.is_staff:
-            # On récupère les animations de la médiathèque de l'utilisateur
-            animations = Animation.objects.filter(users_id=request.user)
-            mediatheque = Mediatheque.objects.get(user_id=request.user)
-            return render(request, 'mediatheque/atelier.html', {'animations': animations, 'mediatheque': mediatheque})
+def AtelierViews(request):
+    # On regarde si l'utilisateur est un admin
+    if request.user.is_superuser:
+        # On récupère toutes les animations
+        animations = Animation.objects.all()
+        return render(request, 'mediatheque/atelier.html', {'animations': animations})
+    # On regarde si l'utilisateur est un staff
+    elif request.user.is_staff:
+        # On récupère les animations de la médiathèque de l'utilisateur
+        animations = Animation.objects.filter(users_id=request.user)
+        mediatheque = Mediatheque.objects.get(user_id=request.user)
+        return render(request, 'mediatheque/atelier.html', {'animations': animations, 'mediatheque': mediatheque})
+
+
 @user_passes_test(is_staff_or_superuser)
-def add_atelier(request):
+def AddAtelier(request):
     if request.method == 'POST':
         form = AnimationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -46,8 +50,9 @@ def add_atelier(request):
         form = AnimationForm()
     return render(request, 'mediatheque/add_atelier.html', {'form': form})
 
+
 @user_passes_test(is_staff_or_superuser)
-def delete_atelier(request):
+def AtelierDelation(request):
     if request.method == 'POST':
         # On récupère les id des utilisateurs à supprimer dans les checkbox cochées
         id_animations = request.POST.getlist('atelier')
@@ -55,9 +60,10 @@ def delete_atelier(request):
             Animation.objects.get(id=id_animation).delete()
         return redirect('print_atelier')
 
+
 @user_passes_test(is_staff_or_superuser)
-def edit_atelier(request, id):
-    animation = Animation.objects.get(id=id)
+def AtelierEditing(request, idanimations):
+    animation = Animation.objects.get(id=idanimations)
     if request.method == 'POST':
         form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
         if form.is_valid():
@@ -70,17 +76,18 @@ def edit_atelier(request, id):
 
 # Fonction qui permet de récupérer les reservations d'un utilisateur
 @user_passes_test(is_staff_or_superuser)
-def get_inscription(request, id):
-        # On récupère l'atelier
-        animation = Animation.objects.get(id=id)
-        # On récupère les réservations de l'animation
-        reservations = Reservation.objects.filter(animation=animation)
+def InscriptionGet(request, idanimations):
+    # On récupère l'atelier
+    animation = Animation.objects.get(id=idanimations)
+    # On récupère les réservations de l'animation
+    reservations = Reservation.objects.filter(animation=animation)
 
-        return render(request, 'mediatheque/confirm_inscription.html',
-                      {'animation': animation, 'reservations': reservations})
+    return render(request, 'mediatheque/confirm_inscription.html',
+                  {'animation': animation, 'reservations': reservations})
+
 
 # Fonction qui permet de confirmer l'inscription d'un utilisateur à une animation de notre médiathèque
-def confirm_inscription(request):
+def SignupConfirm(request):
     # On récupère l'utilisateur
     id_user = request.POST.get('user_id')
     # On récupère l'animation et l'utilisateur
@@ -105,7 +112,7 @@ def confirm_inscription(request):
 
 
 # Fonction qui permet de supprimer l'inscription d'un utilisateur à une animation de notre médiathèque
-def delete_inscription(request):
+def SignupDeleting(request):
     # On récupère l'animation et l'utilisateur
     animation = Animation.objects.get(id=request.POST.get('animation_id_supp'))
     # On récupère l'utilisateur
@@ -120,11 +127,12 @@ def delete_inscription(request):
         reservation.save()
     return redirect('get_inscription', id=animation.id)
 
+
 # Fonction qui permet de récupérer les animations de la médiathèque de l'utilisateur
 @user_passes_test(is_staff_or_superuser)
-def print_animation(request):
-        # On récupère les animations de la médiathèque de l'utilisateur
-        mediatheques = Mediatheque.objects.get(user=request.user)
-        animations = Animation.objects.filter(users_id=request.user)
-        return render(request,
-                      'mediatheque/list_animation.html', {'mediatheques': mediatheques, 'animations': animations})
+def AnimationViews(request):
+    # On récupère les animations de la médiathèque de l'utilisateur
+    mediatheques = Mediatheque.objects.get(user=request.user)
+    animations = Animation.objects.filter(users_id=request.user)
+    return render(request,
+                  'mediatheque/list_animation.html', {'mediatheques': mediatheques, 'animations': animations})
