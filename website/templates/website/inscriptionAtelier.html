@@ -20,7 +20,7 @@
         <input type="hidden" name="animation" value="{{ animation.id }}">
         Nombre de personne : <input type="number" name="nb_person" value="1" min="1">
         <input type="hidden" name="mediatheque" value="{{ animation.users.mediatheque.id }}">
-        <button type="submit" class="btn btn-primary" formaction="{% url "inscription" %}">S'inscrire</button>
+        <button type="submit" class="btn btn-primary" formaction="{% url "Signup" %}">S'inscrire</button>
     </form>
     {% endif %}
 

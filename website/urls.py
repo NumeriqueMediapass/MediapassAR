@@ -1,18 +1,17 @@
 from django.urls import path
-from .views import accueil, monCompte, password_change, editProfile, deleteProfile , inscription, \
-    mesReservations, animation, deleteReservation , print_animations, animations
-
+from .views import accueil, monCompte, ChangePassword, editProfile, deleteProfile, Signup, \
+    mesReservations, animation, deleteReservation, AnimationsViews, animations
 
 urlpatterns = [
     path('', accueil, name='acceuil'),
     path('monCompte/', monCompte, name='monCompte'),
-    path('password_change/', password_change, name='password_change'),
+    path('password_change/', ChangePassword, name='ChangePassword'),
     path('editProfile/', editProfile, name='editProfile'),
     path('deleteProfile/', deleteProfile, name='deleteProfile'),
-    path('inscription/', inscription, name='inscription'),
+    path('inscription/', Signup, name='Signup'),
     path('mesReservations/', mesReservations, name='mesReservations'),
-    path('animation/<int:id>', animation, name='animation'),
-    path('deleteReservation/<int:id>', deleteReservation, name='deleteReservation'),
-    path('print_animations/<int:id_anim>', print_animations, name='print_animations'),
+    path('animation/<int:idanimations>', animation, name='animation'),
+    path('deleteReservation/<int:idanimations>', deleteReservation, name='deleteReservation'),
+    path('print_animations/<int:id_anim>', AnimationsViews, name='AnimationsViews'),
     path('animations/', animations, name='animations'),
 ]

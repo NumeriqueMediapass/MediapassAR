@@ -6,7 +6,7 @@
         <form method="post">
             {% csrf_token %}
             <a class="navbar-brand" href="{% url 'mesReservations'%}">Accéder à vos réservations  </a>
-            <a class="navbar-brand" href="{% url 'password_change'%}">Modifier votre mot de passe </a>
+            <a class="navbar-brand" href="{% url 'ChangePassword' %}">Modifier votre mot de passe </a>
             <a class="navbar-brand" href="{% url 'editProfile'%}">Modifier votre compte </a>
             <a class="navbar-brand" href="{% url 'deleteProfile'%}">Supprimer votre compte </a>
             <a class="navbar-brand" href="{% url 'acceuil' %}">Retour a l'accueil</a>

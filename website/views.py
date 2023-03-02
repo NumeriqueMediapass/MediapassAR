@@ -8,9 +8,6 @@ from django.contrib.auth.admin import User
 from app import settings
 from mediatheque.models import Animation, Reservation, Mediatheque
 from website.forms import EditProfileForm, PasswordChangingForm, CalendarWidget
-from django.contrib.auth.decorators import login_required
-
-
 # Create your views here.
 
 def accueil(request):
@@ -19,6 +16,7 @@ def accueil(request):
     anim = Animation.objects.all()
     res = []
     user = request.user
+    tmp = 0
     form = CalendarWidget()
 
     for animation in animations:
@@ -27,8 +25,8 @@ def accueil(request):
             tmp = res.count(animation)
 
     res = res[:5]
-    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim, 'tmp': tmp
-                                                    , 'user': user})
+    return render(request, 'website/accueil.html', {'animations': res, 'form': form, 'anim': anim, 'tmp': tmp,
+                                                    'user': user})
 
 
 # Fonction qui affiche toute les animations
@@ -47,7 +45,7 @@ def monCompte(request):
     return render(request, 'website/monCompte.html')
 
 
-def password_change(request):
+def ChangePassword(request):
     if request.method == 'POST':
         form = PasswordChangingForm(request.user, request.POST)
         if form.is_valid():
@@ -58,7 +56,7 @@ def password_change(request):
 
     else:
         form = PasswordChangingForm(request.user)
-    return render(request, 'website/password_change.html', {
+    return render(request, 'website/ChangePassword.html', {
         'form': form
     })
 
@@ -94,7 +92,7 @@ def deleteProfile(request):
         return render(request, 'website/delete_account.html')
 
 
-def print_animations(request, id_anim):
+def AnimationsViews(request, id_anim):
     # On récupère l'animation
     animation = Animation.objects.get(id=id_anim)
     # On récupère les réservations pour l'utilisateur connecté
@@ -104,7 +102,7 @@ def print_animations(request, id_anim):
 
 
 # Fonction qui inscrit un utilisateur a une animation
-def inscription(request):
+def Signup(request):
     # On récupère l'utilisateur connecté
     user = request.user
     # On récupère l'animation
@@ -145,18 +143,18 @@ def mesReservations(request):
 
 
 # Fonction qui affiche l'animation sélectionnée
-def animation(request, id):
+def animation(request, idanimations):
     # On récupère l'animation
-    animation = Animation.objects.get(id=id)
+    animation = Animation.objects.get(id=idanimations)
     return render(request, 'website/printAtelier.html', {'animation': animation})
 
 
 # Fonction qui permet de supprimer une réservation
-def deleteReservation(request, id):
+def deleteReservation(request, idanimations):
     # On récupère l'utilisateur connecté
     user = request.user
     # On récupère la réservation
-    reservation = Reservation.objects.get(animation_id=id, user_id=user.id)
+    reservation = Reservation.objects.get(animation_id=idanimations, user_id=user.id)
     # On vérifie si l'utilisateur est bien celui qui a fait la réservation
     if user == reservation.user:
         reservation.delete()

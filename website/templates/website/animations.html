@@ -19,7 +19,7 @@
                                 <p><label>Date : {{ atelier.date }}</label></p>
                                 {% if user.is_authenticated %}
                                     <input class="btn btn-primary" type="submit" name="submit" value="S'inscrire"
-                                           formaction="{% url "print_animations" id_anim=atelier.id %}">
+                                           formaction="{% url "AnimationsViews" id_anim=atelier.id %}">
                                 {% endif %}
                             </div>
                         </div>
