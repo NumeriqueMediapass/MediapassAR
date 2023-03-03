@@ -9,11 +9,10 @@
             <a class="navbar-brand" href="{% url 'ChangePassword' %}">Modifier votre mot de passe </a>
             <a class="navbar-brand" href="{% url 'editProfile'%}">Modifier votre compte </a>
             <a class="navbar-brand" href="{% url 'deleteProfile'%}">Supprimer votre compte </a>
-            <a class="navbar-brand" href="{% url 'acceuil' %}">Retour a l'accueil</a>
         </form>
     </nav>
     <h1>Ma page personnelle</h1>
-    
+
     <p>Vous etes connecté en tant que {{user.username}}</p>
     <p>Vous avez {{user.date_joined}} comme date d'inscription</p>
     <p>Vous avez {{user.last_login}} comme date de derniere connexion</p>

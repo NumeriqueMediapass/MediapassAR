@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
@@ -45,6 +46,7 @@ def AddAtelier(request):
             animation = form.save(commit=False)
             animation.users = request.user
             animation.save()
+            messages.success(request, 'L\'animation a bien été ajoutée')
             return redirect('AtelierViews')
     else:
         form = AnimationForm()
@@ -58,6 +60,7 @@ def AtelierDelation(request):
         id_animations = request.POST.getlist('atelier')
         for id_animation in id_animations:
             Animation.objects.get(id=id_animation).delete()
+            messages.success(request, 'L\'animation a bien été supprimée')
         return redirect('AtelierViews')
 
 
@@ -68,6 +71,7 @@ def AtelierEditing(request, idanimations):
         form = AnimationUpdateForm(request.POST, request.FILES, instance=animation)
         if form.is_valid():
             form.save()
+            messages.success(request, 'L\'animation a bien été modifié')
             return redirect('AtelierViews')
     else:
         form = AnimationUpdateForm(instance=animation)
@@ -108,6 +112,7 @@ def SignupConfirm(request):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [reservation.user.email]
         send_mail(subject, message, email_from, recipient_list)
+        messages.success(request, 'L\'inscription a bien été confirmée')
     return redirect('InscriptionGet', id=animation.id)
 
 
@@ -125,6 +130,7 @@ def SignupDeleting(request):
         reservation.Validated = False
         # On sauvegarde la réservation
         reservation.save()
+        messages.success(request, 'L\'inscription a bien été supprimée')
     return redirect('InscriptionGet', id=animation.id)
 
 

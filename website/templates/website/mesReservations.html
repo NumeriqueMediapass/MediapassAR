@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="text-center">
-        {% if animations.count != 0  %}
+        {% if animations|length == 0  %}
             <h1>Vous n'êtes inscrit à aucun atelier</h1>
         {% else %}
             <h1>Vos réservations</h1>

@@ -41,6 +41,7 @@ def UserDeletion(request):
         users = request.POST.getlist('users')
         for user in users:
             User.objects.get(id=user).delete()
+        messages.success(request, "Vous avez supprimer l'utilisateur avec succès.")
         return redirect('UsersViews')
 
 # Fonction qui permet de modifier les informations d'un utilisateur
@@ -81,6 +82,7 @@ def UsersEdit(request, idusers):
                 # On sauvegarde les modifications
                 user_info.save()
                 # On redirige vers la page des utilisateurs
+                messages.success(request, "Vous avez bien modifier l'utilisateur.")
                 return redirect('UsersViews')
     # On récupère l'utilisateur dont l'id est passé en paramètre
     user_info = User.objects.get(id=idusers)
@@ -101,6 +103,7 @@ def UsersCreation(request):
     if form.is_valid():
         # On sauvegarde les informations de l'utilisateur
         form.save()
+        messages.success(request, "Vous avez bien créer l'utilisateur.")
         return redirect('UsersViews')
     return render(request, 'administration/create_user.html', {'form': form})
 
@@ -114,6 +117,7 @@ def MediaLibraryCreations(request):
         form = create_mediathequeForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Vous avez bien créer la médiathèque.")
             return redirect('MediaLibraryViews')
     else:
         form = create_mediathequeForm()
@@ -163,4 +167,5 @@ def MediaLibraryDelation(request):
         mediatheques = request.POST.getlist('mediatheques')
         for mediatheque in mediatheques:
             Mediatheque.objects.get(id=mediatheque).delete()
+            messages.success(request, "La médiatheque a été supprimée")
         return redirect('MediaLibraryViews')

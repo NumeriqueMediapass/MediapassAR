@@ -97,7 +97,7 @@ def AnimationsViews(request, id_anim):
     animation = Animation.objects.get(id=id_anim)
     # On récupère les réservations pour l'utilisateur connecté
     reservations = Reservation.objects.filter(user=request.user, animation_id=id_anim)
-    print(reservations)
+
     return render(request, 'website/inscriptionAtelier.html', {'animation': animation, 'reservations': reservations})
 
 
@@ -127,6 +127,7 @@ def Signup(request):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.mediatheque.email]
     send_mail(subject, message, email_from, recipient_list)
+    messages.success(request, "Vous êtes inscrit à l'animation : " + Animation.objects.get(id=animation).name)
     return redirect('acceuil')
 
 
@@ -158,4 +159,6 @@ def deleteReservation(request, idanimations):
     # On vérifie si l'utilisateur est bien celui qui a fait la réservation
     if user == reservation.user:
         reservation.delete()
+        messages.success(request, "Votre réservation de l'animation : " +
+                         Animation.objects.get(id=idanimations).name), " a été supprimée"
     return redirect('mesReservations')
