@@ -11,7 +11,7 @@
     </nav>
     <div class="text-center">
         <h1>Administration</h1>
-        <h2>Log du site</h2>
+        <h2>Dernière connexion sur le site</h2>
         <p>
             {% for line in log %}
                 <b>{{ line }}</b> : {{ line.last_login }}<br>

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %} Ajout d'un atelier {% endblock %}
 {% block content %}
+    <h1>Ajout d'une animation</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

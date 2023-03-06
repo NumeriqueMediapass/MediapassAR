@@ -108,21 +108,35 @@ def SignupConfirm(request):
     # On récupère la réservation de l'utilisateur pour l'animation
     reservation = Reservation.objects.get(animation_id=animation, user_id=id_user)
     # On vérifie que la variable Validated n'est pas déjà a True
-    if not reservation.Validated:
-        # On change la valeur de la variable validated
-        reservation.Validated = True
-        # On sauvegarde la réservation
-        reservation.save()
-        # On envoie un mail à l'utilisateur pour lui dire que sa réservation a été validée
-        subject = 'Confirmation de votre inscription à l\'atelier ' + animation.name
-        message = 'Bonjour, \n\nVotre inscription à l\'atelier ' + animation.name + ' a été validée. ' \
+    reservation_validated = Reservation.objects.filter(animation=animation, Validated=True)
+    # On récupère le nb_person de chaque reservation validé
+    nb_person = 0
+    for reservation in reservation_validated:
+        nb_person += reservation.nb_person
+    # On récupère le nb_person_max de l'animation
+    nb_person_max = animation.nb_places
+    # On récupère le nb_person restant
+    nb_person_rest = nb_person_max - nb_person
+    # On vérifie que le nb_person restant est supérieur ou égal au nb_person de la réservation
+    if nb_person_rest >= reservation.nb_person:
+        if not reservation.Validated:
+            # On change la valeur de la variable validated
+            reservation.Validated = True
+            # On sauvegarde la réservation
+            reservation.save()
+            # On envoie un mail à l'utilisateur pour lui dire que sa réservation a été validée
+            subject = 'Confirmation de votre inscription à l\'atelier ' + animation.name
+            message = 'Bonjour, \n\nVotre inscription à l\'atelier ' + animation.name + ' a été validée. ' \
                                                                                     '\n\nCordialement, ' \
                                                                                     '\n\nL\'équipe de la médiathèque'
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [reservation.user.email]
-        send_mail(subject, message, email_from, recipient_list)
-        messages.success(request, 'L\'inscription a bien été confirmée')
-    return redirect('InscriptionGet', idanimation=animation.id)
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [reservation.user.email]
+            send_mail(subject, message, email_from, recipient_list)
+            messages.success(request, 'L\'inscription a bien été confirmée')
+        return redirect('InscriptionGet', idanimation=animation.id)
+    else:
+        messages.warning(request, 'Il n\'y a plus de place disponible pour cet atelier')
+        return redirect('InscriptionGet', idanimation=animation.id)
 
 
 # Fonction qui permet de supprimer l'inscription d'un utilisateur à une animation de notre médiathèque
