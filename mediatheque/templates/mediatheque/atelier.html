@@ -7,8 +7,6 @@
         <p><a class="navbar-brand" href="{% url 'AnimationViews' %}">Afficher les ateliers pour valider les inscriptions</a></p>
     </nav>
     <div class="text-center">
-
-
         {% if animations.count == 0  %}
             <h1>Vous n'avez pas encore créer d'atelier ! </h1>
         {% else %}
@@ -21,9 +19,9 @@
                 </a>
                 <input type="checkbox" name="atelier" value="{{ atelier.id }}">Supprimer l'atelier
             {% endfor %}
-            <br>
-            <button type="submit" formmethod="POST" formaction="{% url "AtelierDelation" %}">Supprimer</button>
-            </form>
+        <br>
+        <button type="submit" formmethod="POST" formaction="{% url "AtelierDelation" %}">Supprimer</button>
+        </form>
         {% endif %}
 
     </div>

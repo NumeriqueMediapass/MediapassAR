@@ -29,7 +29,8 @@ def AtelierViews(request):
     if request.user.is_superuser:
         # On récupère toutes les animations
         animations = Animation.objects.all()
-        return render(request, 'mediatheque/atelier.html', {'animations': animations})
+        mediatheque = Mediatheque.objects.get(user_id=request.user)
+        return render(request, 'mediatheque/atelier.html', {'animations': animations, 'mediatheque': mediatheque})
     # On regarde si l'utilisateur est un staff
     elif request.user.is_staff:
         # On récupère les animations de la médiathèque de l'utilisateur
@@ -94,7 +95,6 @@ def InscriptionGet(request, idanimation):
     nb_person_max = animation.nb_places
     # On récupère le nb_person restant
     nb_person_rest = nb_person_max - nb_person
-    print(nb_person_rest)
     return render(request, 'mediatheque/SignupConfirm.html',
                   {'animation': animation, 'reservations': reservations, 'nb_person_rest': nb_person_rest})
 
