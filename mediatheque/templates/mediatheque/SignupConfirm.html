@@ -13,7 +13,7 @@
     <p>Age de fin : {{ animation.age_end }}</p>
     <p><img src="{{ animation.image.url }}" alt="image de l'animation"></p>
 
-    <p>Nombre de places : {{ animation.nb_places }}</p>
+    <p>Nombre de places : {{ nb_person_rest }}</p>
     <h2>Utilisateur inscrit a l'atelier</h2>
     <form method="post">
         {% csrf_token %}

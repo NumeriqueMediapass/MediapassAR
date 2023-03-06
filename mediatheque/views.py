@@ -60,7 +60,7 @@ def AtelierDelation(request):
         id_animations = request.POST.getlist('atelier')
         for id_animation in id_animations:
             Animation.objects.get(id=id_animation).delete()
-            messages.success(request, 'L\'animation a bien été supprimée')
+        messages.success(request, 'L\'animation a bien été supprimée')
         return redirect('AtelierViews')
 
 
@@ -85,9 +85,18 @@ def InscriptionGet(request, idanimation):
     animation = Animation.objects.get(id=idanimation)
     # On récupère les réservations de l'animation
     reservations = Reservation.objects.filter(animation=animation)
-
+    reservation_validated = Reservation.objects.filter(animation=animation, Validated=True)
+    # On récupère le nb_person de chaque reservation validé
+    nb_person = 0
+    for reservation in reservation_validated:
+        nb_person += reservation.nb_person
+    # On récupère le nb_person_max de l'animation
+    nb_person_max = animation.nb_places
+    # On récupère le nb_person restant
+    nb_person_rest = nb_person_max - nb_person
+    print(nb_person_rest)
     return render(request, 'mediatheque/SignupConfirm.html',
-                  {'animation': animation, 'reservations': reservations})
+                  {'animation': animation, 'reservations': reservations, 'nb_person_rest': nb_person_rest})
 
 
 # Fonction qui permet de confirmer l'inscription d'un utilisateur à une animation de notre médiathèque
@@ -113,7 +122,7 @@ def SignupConfirm(request):
         recipient_list = [reservation.user.email]
         send_mail(subject, message, email_from, recipient_list)
         messages.success(request, 'L\'inscription a bien été confirmée')
-    return redirect('InscriptionGet', id=animation.id)
+    return redirect('InscriptionGet', idanimation=animation.id)
 
 
 # Fonction qui permet de supprimer l'inscription d'un utilisateur à une animation de notre médiathèque
@@ -131,7 +140,7 @@ def SignupDeleting(request):
         # On sauvegarde la réservation
         reservation.save()
         messages.success(request, 'L\'inscription a bien été supprimée')
-    return redirect('InscriptionGet', id=animation.id)
+    return redirect('InscriptionGet', idanimation=animation.id)
 
 
 # Fonction qui permet de récupérer les animations de la médiathèque de l'utilisateur
