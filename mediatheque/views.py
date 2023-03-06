@@ -139,6 +139,14 @@ def SignupDeleting(request):
         reservation.Validated = False
         # On sauvegarde la réservation
         reservation.save()
+        # On envoie un mail à l'utilisateur pour lui dire que sa réservation a été supprimée
+        subject = 'Confirmation de votre inscription à l\'atelier ' + animation.name
+        message = 'Bonjour, \n\nVotre inscription à l\'atelier ' + animation.name + ' a été supprimé. ' \
+                                                                                    '\n\nCordialement, ' \
+                                                                                    '\n\nL\'équipe de la médiathèque'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [reservation.user.email]
+        send_mail(subject, message, email_from, recipient_list)
         messages.success(request, 'L\'inscription a bien été supprimée')
     return redirect('InscriptionGet', idanimation=animation.id)
 

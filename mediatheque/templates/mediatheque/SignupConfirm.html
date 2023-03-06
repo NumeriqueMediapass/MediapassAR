@@ -21,6 +21,7 @@
             {% if user.Validated %}
                 <p>
                     {{ user.user.username }}
+                    Nombre de personne : {{ user.nb_person }}
                     <input type="hidden" name="animation_id_supp" value="{{ animation.id }}">
                     <button type="submit" formmethod="POST"
                             formaction="{% url "SignupDeleting" %}" name="user_id_supp" value="{{ user.user.id }}">
@@ -35,6 +36,7 @@
             {% if not user.Validated %}
                 <p>
                     {{ user.user.username }}
+                    Nombre de personne : {{ user.nb_person }}
                     <input type="hidden" name="anim_id" value="{{ animation.id }}">
                     <button type="submit" formmethod="POST"
                             formaction="{% url "SignupConfirm" %}" name="user_id" value="{{ user.user.id }}">
