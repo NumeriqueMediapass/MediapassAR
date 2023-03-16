@@ -125,7 +125,7 @@ def Signup(request):
     message = "L'utilisateur " + user.username + " s'est inscrit à l'animation " + \
               Animation.objects.get(id=animation).name
     email_from = settings.EMAIL_HOST_USER
-    recipient_list = [user.mediatheque.email]
+    recipient_list = [tmp.email]
     send_mail(subject, message, email_from, recipient_list)
     messages.success(request, "Vous êtes inscrit à l'animation : " + Animation.objects.get(id=animation).name)
     return redirect('acceuil')
