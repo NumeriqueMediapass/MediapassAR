@@ -9,7 +9,7 @@ from mediatheque.models import Mediatheque
 # Create your views here.
 def index(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
     # On récupère la liste des dernières connexions avec la date et l'heure
@@ -20,7 +20,7 @@ def index(request):
 # Fonction pour afficher les utilisateurs de la base de données
 def UsersViews(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
     # On récupère tous les utilisateurs de la base de données ainsi que leurs informations
@@ -32,7 +32,7 @@ def UsersViews(request):
 # Fonction qui permet de supprimer un ou plusieurs utilisateurs
 def UserDeletion(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
 
@@ -47,7 +47,7 @@ def UserDeletion(request):
 # Fonction qui permet de modifier les informations d'un utilisateur
 def UsersEdit(request, idusers):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
     if request.method == 'POST':
@@ -95,7 +95,7 @@ def UsersEdit(request, idusers):
 # Fonction qui permet de créer un utilisateur
 def UsersCreation(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
     form = UserCreationForm(request.POST or None)
@@ -110,7 +110,7 @@ def UsersCreation(request):
 # Fonction qui permet de créer une mediatheque
 def MediaLibraryCreations(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
     if request.method == 'POST':
@@ -126,7 +126,7 @@ def MediaLibraryCreations(request):
 # Fonction qui récupère la liste des médiathèques
 def MediaLibraryViews(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
     mediatheques = Mediatheque.objects.all()
@@ -136,7 +136,7 @@ def MediaLibraryViews(request):
 # Fonction qui permet de modifier les informations d'une médiathèque
 def MediaLibraryEditing(request, idmedialibrary):
     # On vérifie si l'utilisateur est un superutilisateur ou un membre du personnel
-    if not request.user.is_superuser and not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le redirige vers la page d'accueil
         return redirect('accueil')
 
@@ -158,7 +158,7 @@ def MediaLibraryEditing(request, idmedialibrary):
 # Fonction qui permet de supprimer une/des médiathèques
 def MediaLibraryDelation(request):
     # On regarde si l'utilisateur est un utilisateur sans droits
-    if not request.user.is_superuser or not request.user.is_staff:
+    if not request.user.is_superuser:
         # On le renvoie vers la page d'accueil
         return redirect('acceuil')
 

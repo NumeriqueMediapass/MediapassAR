@@ -135,7 +135,7 @@ def SignupConfirm(request):
             messages.success(request, 'L\'inscription a bien été confirmée')
         return redirect('InscriptionGet', idanimation=animation.id)
     else:
-        messages.warning(request, 'Il n\'y a plus de place disponible pour cet atelier')
+        messages.warning(request, 'Il n\'y a plus assez de place disponible pour cet atelier')
         return redirect('InscriptionGet', idanimation=animation.id)
 
 

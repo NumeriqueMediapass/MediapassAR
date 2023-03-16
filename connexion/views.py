@@ -11,9 +11,9 @@ import logging
 
 # Create your views here.
 
-# Fonction pour s'enregistrer sur le site
-
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('acceuil')
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -28,6 +28,8 @@ def login_view(request):
     return render(request, 'connexion/connexion.html', context={'form': form})
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('acceuil')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
