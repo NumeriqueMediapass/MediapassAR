@@ -58,7 +58,7 @@ def UsersEdit(request, idusers):
         if User.objects.filter(username=request.POST['username']).exists():
             if user_info.username != request.POST['username']:
                 # On affiche un message d'erreur
-                messages.error(request, "Ce nom d'utilisateur est déjà utilisé")
+                messages.warning(request, "Ce nom d'utilisateur est déjà utilisé")
                 # On redirige vers la page d'édition de l'utilisateur
                 return redirect('UsersEdit', id=idusers)
             else:

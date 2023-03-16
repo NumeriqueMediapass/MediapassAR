@@ -69,7 +69,7 @@ def editProfile(request):
         if form.is_valid():
             user = form.save(commit=False)
             if user.username != request.user.username and User.objects.filter(username=user.username).exists():
-                messages.error(request, "Ce nom d'utilisateur est déjà utilisé")
+                messages.warning(request, "Ce nom d'utilisateur est déjà utilisé")
                 return redirect('editProfile')
             user.save()
             messages.success(request, "Votre profil a été mis à jour avec succès.")
@@ -114,7 +114,7 @@ def Signup(request):
     nb_person = request.POST.get('nb_person')
     # On vérifie si l'utilisateur est déjà inscrit
     if Reservation.objects.filter(user=user, animation=animation).exists():
-        messages.error(request, "Vous êtes déjà inscrit à cette animation")
+        messages.warning(request, "Vous êtes déjà inscrit à cette animation")
         return redirect('acceuil')
     # On inscrit l'utilisateur à l'animation
     reservation = Reservation(user=user, animation_id=animation,

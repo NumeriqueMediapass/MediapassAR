@@ -41,10 +41,10 @@ def signup(request):
             password2 = request.POST.get('password2')
             try:
                 if User.objects.filter(email=email).exists():
-                    messages.error(request, 'Cette adresse mail est déjà utilisée')
+                    messages.warning(request, 'Cette adresse mail est déjà utilisée')
                     return redirect('signup')
                 elif User.objects.filter(username=username).exists():
-                    messages.error(request, 'Ce username est déjà utilisé')
+                    messages.warning(request, 'Ce username est déjà utilisé')
                     return redirect('signup')
                 else:
                     user = User.objects.UsersCreation(username=username, email=email, password=password1,
@@ -57,7 +57,8 @@ def signup(request):
                     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
             except Exception as e:
                 logging.error('Erreur lors de l\'envoi du courriel', e)
-                messages.error(request, 'Une erreur s\'est produite, veuillez réessayer plus tard.')
+                messages.warning(request, 'Une erreur s\'est produite lors de\'envoie du courriel'
+                                          ', veuillez réessayer plus tard.')
                 return redirect('signup')
         return redirect('login')
     else:
