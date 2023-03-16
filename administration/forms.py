@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from mediatheque.models import Mediatheque
 from django.core.exceptions import ValidationError
 
-
 # Formulaire pour ajouter un utilisateur
 class AddUserForm(forms.ModelForm):
     class Meta:

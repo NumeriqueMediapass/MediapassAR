@@ -1,4 +1,3 @@
-
 from django.contrib import messages
 from django.shortcuts import render
 from django.conf import settings
@@ -8,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 import logging
+
+from connexion.forms import SignupForm
+
 
 # Create your views here.
 
@@ -27,11 +29,12 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'connexion/connexion.html', context={'form': form})
 
+
 def signup(request):
     if request.user.is_authenticated:
         return redirect('acceuil')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             email = request.POST.get('email')
             username = request.POST.get('username')
@@ -47,8 +50,9 @@ def signup(request):
                     messages.warning(request, 'Ce username est déjà utilisé')
                     return redirect('signup')
                 else:
-                    user = User.objects.UsersCreation(username=username, email=email, password=password1,
-                                                      first_name=first_name, last_name=last_name)
+                    # On créer l'utilisateur
+                    user = User.objects.create_user(username=username, email=email, password=password1,
+                                                    first_name=first_name, last_name=last_name)
                     # Envoi d'un email simple de confirmation
                     subject = 'Confirmation de votre inscription'
                     message = 'Bonjour {}, merci de vous être inscrit sur notre site.'.format(username)
@@ -62,7 +66,7 @@ def signup(request):
                 return redirect('signup')
         return redirect('login')
     else:
-        form = UserCreationForm()
+        form = SignupForm()
     return render(request, 'connexion/signup.html', {'form': form})
 
 
